@@ -1,407 +1,606 @@
-# Funny Deadly Linux Strings Part 3
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Funny Deadly Linux Strings Part 3 | x0xr00t</title>
+
+<style>
+:root {
+    --bg: #050505;
+    --panel: #0b0b0b;
+    --border: #242424;
+    --text: #d7ffd7;
+    --green: #00ff66;
+    --cyan: #00eaff;
+    --red: #ff3344;
+    --muted: #888;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background:
+    radial-gradient(circle at top, #102010 0%, #050505 45%);
+    color: var(--text);
+    font-family: "Courier New", monospace;
+    line-height: 1.7;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+    linear-gradient(
+        rgba(255,255,255,0.02) 1px,
+        transparent 1px
+    );
+    background-size: 100% 4px;
+    pointer-events: none;
+}
+
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 40px 20px;
+}
+
+
+/* HEADER */
+
+.hero {
+    text-align: center;
+    padding: 50px 20px;
+    border: 1px solid var(--border);
+    background: rgba(0,0,0,.75);
+    box-shadow:
+    0 0 30px rgba(0,255,102,.15);
+}
+
+
+.logo {
+    color: var(--green);
+    font-size: clamp(12px,3vw,22px);
+    text-shadow:
+    0 0 10px var(--green);
+}
+
+
+.title {
+    font-size: clamp(28px,5vw,55px);
+    color:white;
+    margin:20px 0;
+}
+
+
+.subtitle {
+    color:var(--cyan);
+}
+
+
+/* CONTENT */
+
+.section {
+    margin-top:40px;
+    padding:30px;
+    background:
+    rgba(10,10,10,.85);
+    border:1px solid var(--border);
+    border-radius:8px;
+}
+
+
+.section h2 {
+    color:var(--green);
+    border-left:4px solid var(--green);
+    padding-left:15px;
+}
 
-## The Rabbit Hole Goes Deeper: Linux Parsing, Hidden Layers & Modern Detection (2026 Edition)
 
-**By x0xr00t**
+.section h3 {
+    color:var(--cyan);
+}
 
----
 
-## Introduction
+p {
+    color:#ddd;
+}
 
-Welcome back to the rabbit hole.
 
-When I wrote the first parts of **Funny Deadly Linux Strings**, the goal was simple:
+.terminal {
+    background:#000;
+    border:1px solid #333;
+    padding:20px;
+    border-radius:8px;
+    overflow:auto;
+    box-shadow:
+    inset 0 0 20px rgba(0,255,102,.08);
+}
 
-Show how something that looks harmless can become something completely different when Linux starts interpreting it.
 
-Linux is powerful because everything is connected:
+.prompt {
+    color:var(--green);
+}
 
-* shells
-* interpreters
-* environment variables
-* files
-* processes
-* system calls
 
-The same text can have multiple meanings depending on **who interprets it and when**.
+.output {
+    color:#aaa;
+}
 
-In 2026, defenders are no longer only hunting for suspicious words.
 
-They are hunting for:
+.code {
+    color:#00ffaa;
+}
 
-* execution patterns
-* abnormal behavior
-* hidden transformations
-* unexpected relationships between processes
 
-The question is no longer:
+.quote {
+    border-left:3px solid var(--red);
+    padding:20px;
+    color:#fff;
+    background:#080808;
+    font-style:italic;
+}
 
-> "What does this string look like?"
 
-The real question:
+.badge {
+    display:inline-block;
+    padding:6px 12px;
+    border:1px solid var(--green);
+    color:var(--green);
+    margin:5px;
+    border-radius:20px;
+}
 
-> "What does this become?"
 
----
+/* FOOTER */
 
-# Level 1 — Strings Are Not Always What They Seem
+footer {
+    text-align:center;
+    margin-top:60px;
+    padding:30px;
+    color:var(--muted);
+}
 
-Let's start simple.
 
-A file may contain readable strings:
+.cursor {
+    display:inline-block;
+    width:10px;
+    height:20px;
+    background:var(--green);
+    animation:blink 1s infinite;
+}
 
-```bash
-$ strings sample.txt
 
-backup_report
-system_check
-configuration_update
-```
+@keyframes blink {
+    50% {
+        opacity:0;
+    }
+}
 
-At first glance:
 
-```
-backup_report
-system_check
-configuration_update
-```
+.fade {
+    animation:fade 1.5s ease;
+}
 
-Nothing unusual.
 
-But strings alone only show what is visible.
+@keyframes fade {
+    from {
+        opacity:0;
+        transform:translateY(20px);
+    }
 
-They do not show:
+    to {
+        opacity:1;
+        transform:none;
+    }
+}
 
-* runtime behavior
-* generated content
-* hidden data
-* execution flow
+</style>
 
----
+</head>
 
-# Level 2 — Following The Transformation
 
-A defender should think like a parser.
+<body>
 
-Example:
+<div class="container">
 
-```bash
-$ echo "SGVsbG8gTGludXg="
 
-SGVsbG8gTGludXg=
-```
+<section class="hero fade">
 
-The string itself is meaningless until another operation interprets it.
+<div class="logo">
 
-Analysis:
+██████╗ ██╗  ██╗ ██████╗ ██████╗ ██████╗ ████████╗
 
-```bash
-$ echo "SGVsbG8gTGludXg=" | base64 -d
+</div>
 
-Hello Linux
-```
 
-Output:
+<h1 class="title">
+Funny Deadly Linux Strings Part 3
+</h1>
 
-```
-Hello Linux
-```
 
-The important lesson:
+<div class="subtitle">
+The Rabbit Hole Gets Deeper — Linux Analysis & Security Research 2026
+</div>
 
-The original content was only one layer.
 
----
+<br>
 
-# Level 3 — Finding Hidden Data
+<span class="badge">Linux</span>
+<span class="badge">Reverse Engineering</span>
+<span class="badge">Security Research</span>
 
-Linux provides many ways to inspect files.
 
-Example:
+</section>
 
-```bash
-$ file suspicious.bin
 
-suspicious.bin: ELF 64-bit LSB executable
-```
 
-Now we know:
+<section class="section">
 
-* It is not a text file
-* It is a Linux executable
-* Further analysis is required
+<h2>Introduction</h2>
 
-Next:
+<div class="quote">
 
-```bash
-$ strings suspicious.bin | head
+Reality is not what you see.
+Reality is what the system interprets.
 
-/lib64/ld-linux-x86-64.so.2
-libc.so.6
-GLIBC_2.34
-```
+</div>
 
-Output:
 
-```
-/lib64/ld-linux-x86-64.so.2
-libc.so.6
-GLIBC_2.34
-```
+<p>
+Linux is powerful because every action passes through multiple layers.
+A visible string is only the beginning of the investigation.
+</p>
 
-This tells us:
 
-The binary has normal Linux runtime dependencies.
+<div class="terminal">
 
-But strings are only clues.
+<span class="prompt">
+INPUT
+</span>
 
----
+<br>
+↓
+<br>
 
-# Level 4 — The Process Story
+<span class="code">
+PARSER
+</span>
 
-Modern analysis focuses on relationships.
+<br>
+↓
+<br>
 
-A single process may look normal.
+<span class="code">
+INTERPRETER
+</span>
 
-The chain tells the story.
+<br>
+↓
+<br>
 
-Example:
+<span class="code">
+OPERATING SYSTEM
+</span>
 
-```bash
-$ ps aux | grep firefox
+<br>
+↓
+<br>
 
-patrick   4211  firefox
-```
+<span class="output">
+REAL BEHAVIOR
+</span>
 
-Output:
+</div>
 
-```
-patrick 4211 firefox
-```
+</section>
 
-Normal.
 
-But:
 
-```bash
+
+<section class="section">
+
+<h2>LEVEL 1 — Strings Are Evidence</h2>
+
+
+<p>
+Strings are useful clues, but they are not the complete story.
+</p>
+
+
+<div class="terminal">
+
+<span class="prompt">
+$ strings unknown_file
+</span>
+
+<br><br>
+
+<span class="output">
+
+configuration<br>
+system_update<br>
+backup_service
+
+</span>
+
+</div>
+
+
+<p>
+The visible content is only one layer.
+Analysis requires understanding context and behavior.
+</p>
+
+
+</section>
+
+
+
+
+<section class="section">
+
+<h2>LEVEL 2 — Following The Rabbit Hole</h2>
+
+
+<div class="terminal">
+
+<span class="prompt">
+$ echo "U2VjdXJpdHkgUmVzZWFyY2g="
+</span>
+
+<br><br>
+
+<span class="output">
+U2VjdXJpdHkgUmVzZWFyY2g=
+</span>
+
+<br><br>
+
+
+<span class="prompt">
+$ base64 decode
+</span>
+
+<br><br>
+
+<span class="code">
+Security Research
+</span>
+
+</div>
+
+
+</section>
+
+
+
+
+
+<section class="section">
+
+<h2>LEVEL 3 — The File Has A Story</h2>
+
+
+<div class="terminal">
+
+<span class="prompt">
+$ file mystery.bin
+</span>
+
+<br><br>
+
+<span class="output">
+ELF 64-bit executable
+</span>
+
+<br><br>
+
+<span class="prompt">
+$ ldd mystery.bin
+</span>
+
+<br><br>
+
+<span class="output">
+
+linux-vdso.so.1<br>
+libc.so.6<br>
+libpthread.so.0
+
+</span>
+
+</div>
+
+</section>
+
+
+
+
+
+<section class="section">
+
+<h2>LEVEL 4 — Process DNA</h2>
+
+
+<div class="terminal">
+
+<span class="prompt">
 $ pstree -p
+</span>
 
-systemd(1)
- └─firefox(4211)
-```
+<br><br>
 
-Shows:
+<span class="output">
 
-```
-systemd
- └── firefox
-```
+systemd(1)<br>
+ ├── sshd(900)<br>
+ ├── firefox(2210)<br>
+ └── terminal(3001)
 
-The relationship matters.
+</span>
 
-Security teams investigate:
+</div>
 
-* who started it
-* what it started
-* what files it touched
-* where it connected
 
----
+<p>
+Security is not only about what exists.
+It is about why it exists.
+</p>
 
-# Level 5 — Looking Deeper With System Calls
 
-Sometimes the command line is not enough.
+</section>
 
-System calls reveal what software actually does.
 
-Example:
 
-```bash
-$ strace -c ls
 
-% time     calls
-------     -----
-40.2       openat
-25.4       read
-12.1       close
-```
+<section class="section">
 
-Output:
+<h2>LEVEL 5 — Kernel Vision</h2>
 
-```
-openat
-read
-close
-```
 
-The operating system view is often more truthful than the visible command.
+<div class="terminal">
 
----
+<span class="prompt">
+$ strace -c application
+</span>
 
-# Level 6 — The Modern Detection Mindset
+<br><br>
 
-Old security:
+<span class="output">
 
-```
-Find bad words
-Block bad words
-```
+openat<br>
+read<br>
+write<br>
+connect
 
-Modern security:
+</span>
 
-```
-Observe behavior
-Build context
-Detect anomalies
-```
+</div>
 
-Example:
 
-Normal:
+</section>
 
-```
-Browser
- |
- Network
- |
- Website
-```
 
-Suspicious:
 
-```
-Document viewer
- |
- Shell interpreter
- |
- Unexpected process
- |
- Network activity
-```
 
-The relationship creates the signal.
 
----
+<section class="section">
 
-# Level 7 — Hunting With Logs
+<h2>LEVEL 6 — Modern Security Thinking</h2>
 
-Linux already creates valuable evidence.
 
-Example:
+<p>
 
-```bash
-$ journalctl -xe | tail
+Old security looked for suspicious strings.
 
-Jul 23 01:30 systemd started service
-Jul 23 01:31 user session created
-Jul 23 01:32 application opened
-```
+Modern security looks for suspicious relationships.
 
-Output:
+</p>
 
-```
-systemd started service
-user session created
-application opened
-```
 
-A defender connects these events.
+<div class="terminal">
 
-One event is noise.
-
-Many connected events become intelligence.
-
----
-
-# Level 8 — The 2026 Rabbit Hole
-
-Modern security research is moving toward:
-
-## Behavioral analysis
-
-Not:
-
-"Is this string bad?"
-
-But:
-
-"Does this behavior make sense?"
-
----
-
-## Graph thinking
-
-Every action creates relationships:
-
-```
 USER
- |
+
+<br>↓
+
+<br>
+
 PROCESS
- |
-FILE
- |
+
+<br>↓
+
+<br>
+
+FILES
+
+<br>↓
+
+<br>
+
 NETWORK
- |
+
+<br>↓
+
+<br>
+
 MEMORY
-```
 
-The graph is the evidence.
 
----
+</div>
 
-# Level 9 — The Fun Part Of Linux
 
-Linux remains fascinating because the system is transparent.
+</section>
 
-You can ask:
 
-"What happened?"
 
-and then investigate:
 
-```bash
-history
-ps
-journalctl
-lsof
-strace
-strings
-file
-```
+<section class="section">
 
-Each tool reveals another layer.
+<h2>Final Message</h2>
 
-The deeper you go:
 
-The less you trust appearances.
+<div class="quote">
 
----
+The system does not care what something looks like.
+It cares what it becomes.
 
-# Final Thoughts
+</div>
 
-The funniest Linux strings are not interesting because they are complicated.
 
-They are interesting because they teach an important lesson:
+<p>
+The rabbit hole never ends.
+The deeper you investigate,
+the more layers you discover.
+</p>
 
-Computers do not understand intention.
 
-They understand instructions.
+</section>
 
-Security researchers live between those two worlds.
 
-The attacker thinks:
 
-"How can I make this harder to understand?"
+<footer>
 
-The defender thinks:
+x0xr00t © 2026<br>
 
-"How can I make this easier to explain?"
+Security Research • Linux Analysis • Reverse Engineering
 
-The rabbit hole continues.
+<br><br>
 
-The only difference is how deep you are willing to look.
+<span class="cursor"></span>
 
----
+</footer>
 
-**x0xr00t**
-**Security Research / Linux Analysis**
+
+</div>
+
+
+
+<script>
+
+console.log(
+"%c[x0xr00t] Research page loaded",
+"color:#00ff66;font-size:18px"
+);
+
+
+document.querySelectorAll(".section")
+.forEach((item,index)=>{
+
+item.style.animationDelay =
+(index * 0.1)+"s";
+
+});
+
+
+</script>
+
+
+</body>
+</html>
