@@ -14,22 +14,18 @@ Funny Deadly Linux Strings Part 3 | x0xr00t
 <style>
 
 :root {
-
-    --bg:#090909;
+    --bg:#080808;
     --panel:#111;
-    --text:#d8d8d8;
-    --green:#00ff66;
-    --cyan:#00d9ff;
     --border:#292929;
+    --text:#ddd;
+    --green:#00ff66;
+    --cyan:#00eaff;
     --muted:#888;
-
 }
 
 
 * {
-
     box-sizing:border-box;
-
 }
 
 
@@ -38,11 +34,7 @@ body {
     margin:0;
 
     background:
-    linear-gradient(
-        180deg,
-        #050505,
-        #111
-    );
+    radial-gradient(circle at top,#101010,#050505 60%);
 
     color:var(--text);
 
@@ -54,7 +46,8 @@ body {
 }
 
 
-.article {
+
+.wrapper {
 
     max-width:900px;
 
@@ -66,13 +59,16 @@ body {
 
 
 
-.header {
+.logo {
 
-    border-bottom:
+    color:var(--green);
 
-    1px solid var(--border);
+    font-family:
+    monospace;
 
-    padding-bottom:30px;
+    font-size:14px;
+
+    letter-spacing:3px;
 
 }
 
@@ -82,12 +78,11 @@ body {
 
     color:var(--green);
 
-    font-family:
-    monospace;
+    margin-top:30px;
+
+    font-family:monospace;
 
     letter-spacing:3px;
-
-    font-size:14px;
 
 }
 
@@ -95,13 +90,27 @@ body {
 
 h1 {
 
-    font-size:
+    color:white;
 
-    clamp(35px,6vw,65px);
+    font-size:
+    clamp(35px,6vw,60px);
+
+    line-height:1.1;
+
+}
+
+
+
+h2 {
+
+    margin-top:60px;
 
     color:white;
 
-    line-height:1.1;
+    border-left:
+    4px solid var(--green);
+
+    padding-left:15px;
 
 }
 
@@ -119,25 +128,15 @@ h1 {
 
 .author {
 
-    margin-top:25px;
-
     color:var(--muted);
 
-    line-height:1.8;
+    margin-top:20px;
 
 }
 
 
 
-.content {
-
-    margin-top:40px;
-
-}
-
-
-
-.content p {
+.article p {
 
     font-size:18px;
 
@@ -147,69 +146,13 @@ h1 {
 
 
 
-h2 {
-
-    margin-top:60px;
-
-    color:white;
-
-    border-left:
-
-    4px solid var(--green);
-
-    padding-left:15px;
-
-}
-
-
-
-pre {
-
-    background:#000;
-
-    border:
-
-    1px solid var(--border);
-
-    padding:25px;
-
-    overflow:auto;
-
-    color:#00ff99;
-
-    font-family:
-
-    "Courier New",
-    monospace;
-
-    line-height:1.6;
-
-}
-
-
-
-.caption {
-
-    border-left:
-
-    3px solid var(--cyan);
-
-    padding-left:15px;
-
-    color:#aaa;
-
-    font-size:15px;
-
-}
-
-
-
 .quote {
+
+    margin:30px 0;
 
     background:#050505;
 
     border-left:
-
     3px solid var(--green);
 
     padding:25px;
@@ -220,19 +163,58 @@ pre {
 
 
 
-.footer {
+pre {
+
+    background:#000;
+
+    color:#00ff99;
+
+    padding:25px;
+
+    border:
+
+    1px solid var(--border);
+
+    overflow:auto;
+
+    font-family:
+    "Courier New",
+    monospace;
+
+    line-height:1.7;
+
+}
+
+
+
+.caption {
+
+    color:#999;
+
+    border-left:
+    3px solid var(--cyan);
+
+    padding-left:15px;
+
+    margin-top:15px;
+
+}
+
+
+
+footer {
 
     margin-top:80px;
 
-    padding-top:30px;
+    text-align:center;
 
     border-top:
 
     1px solid var(--border);
 
-    text-align:center;
+    padding-top:30px;
 
-    color:var(--muted);
+    color:#777;
 
 }
 
@@ -244,15 +226,20 @@ pre {
 </head>
 
 
-
 <body>
 
 
-<div class="article">
+<div class="wrapper">
 
 
 
-<header class="header">
+<div class="logo">
+
+SECJUICE STYLE // TECHNICAL // OSINT
+
+</div>
+
+
 
 
 <div class="category">
@@ -294,13 +281,10 @@ Security Research
 </div>
 
 
-</header>
 
 
 
-
-
-<div class="content">
+<div class="article">
 
 
 
@@ -321,14 +305,13 @@ Hello folks, I'm back again with another post about funny deadly Linux strings.
 </p>
 
 
-
 <p>
 
-If you remember my previous articles, we looked at how small changes in
-Linux strings can completely change how something appears during analysis.
+If you remember my previous articles, we explored how small changes in Linux
+strings can change what analysts see and how different layers of interpretation
+can reveal hidden information.
 
 </p>
-
 
 
 <p>
@@ -337,7 +320,7 @@ This time we go deeper.
 
 Not only looking at strings.
 
-Looking at the complete journey.
+Looking at the complete investigation path.
 
 </p>
 
@@ -346,20 +329,9 @@ Looking at the complete journey.
 
 <h2>
 
-The Modern String Investigation
+So here we go again,
 
 </h2>
-
-
-
-<p>
-
-In 2026, analysing a suspicious string is no longer only about searching
-for keywords.
-
-The investigation follows multiple layers.
-
-</p>
 
 
 
@@ -383,7 +355,7 @@ TRANSFORMATION
 
    v
 
-INTERPRETATION
+ANALYSIS
 
    |
 
@@ -396,78 +368,11 @@ BEHAVIOUR
 
 
 
-<p>
-
-A string is only one piece of evidence.
-
-The surrounding behaviour creates the story.
-
-</p>
-
-
-
 
 
 <h2>
 
-Level 1 — Finding The Hidden Layers
-
-</h2>
-
-
-
-<pre>
-
-$ strings sample.bin
-
-
-/lib64/ld-linux-x86-64.so.2
-
-libc.so.6
-
-GLIBC_2.34
-
-configuration
-
-network_service
-
-update_component
-
-
-</pre>
-
-
-
-<p>
-
-At first glance these are only strings.
-
-A researcher asks:
-
-</p>
-
-
-
-<pre>
-
-Where did it come from?
-
-Why does it exist?
-
-What process uses it?
-
-What happens afterwards?
-
-
-</pre>
-
-
-
-
-
-<h2>
-
-Level 2 — Representation Changes
+String Mutation Analysis
 
 </h2>
 
@@ -475,54 +380,9 @@ Level 2 — Representation Changes
 
 <p>
 
-Data can be represented in different ways.
+During research, strings often appear in different forms.
 
-The goal of analysis is understanding the transformation.
-
-</p>
-
-
-
-<pre>
-
-Original representation:
-
-U2VjdXJpdHkgUmVzZWFyY2g=
-
-
-
-Analysis:
-
-[+] Encoding detected
-
-[+] Representation restored
-
-[+] Meaning identified
-
-
-Result:
-
-Security Research
-
-
-</pre>
-
-
-
-
-
-<h2>
-
-Level 3 — Character Mutation Research
-
-</h2>
-
-
-
-<p>
-
-Another interesting area is how strings change visually while keeping
-their underlying meaning.
+The goal is understanding the transformation.
 
 </p>
 
@@ -536,14 +396,17 @@ Observed artifact:
 c o m m a n d
 
 
+
 Analysis:
 
 
-[+] Character separation observed
+[+] Character separation detected
 
 [+] Structure reconstructed
 
-[+] Behaviour reviewed
+[+] Context reviewed
+
+[+] Behaviour documented
 
 
 </pre>
@@ -552,8 +415,7 @@ Analysis:
 
 <div class="caption">
 
-The researcher follows the transformation path instead of trusting the
-first visible representation.
+The visible representation is only one layer of the investigation.
 
 </div>
 
@@ -561,9 +423,60 @@ first visible representation.
 
 
 
+
 <h2>
 
-Level 4 — Transformation Rabbit Hole
+Encoded Representation Layers
+
+</h2>
+
+
+
+<pre>
+
+Input:
+
+
+U2VjdXJpdHkgUmVzZWFyY2g=
+
+
+
+Analysis:
+
+
+[+] Encoding identified
+
+[+] Data restored
+
+[+] Meaning recovered
+
+
+
+Result:
+
+
+Security Research
+
+
+</pre>
+
+
+
+<p>
+
+Encoding changes appearance, not the underlying information.
+
+</p>
+
+
+
+
+
+
+
+<h2>
+
+Transformation Rabbit Hole
 
 </h2>
 
@@ -574,16 +487,16 @@ Level 4 — Transformation Rabbit Hole
 Encoded artifact:
 
 
-:7 , QSt&amp;xsQ ?6 \_
+ROTATED_SAMPLE_DATA
 
 
 
-Analysis:
+Research process:
 
 
 [+] Transformation pattern identified
 
-[+] Decoding method determined
+[+] Representation restored
 
 [+] Context analysed
 
@@ -596,9 +509,9 @@ Analysis:
 
 <p>
 
-Encoding is not protection.
+A researcher does not stop at the first layer.
 
-It is simply another layer.
+Every layer creates another question.
 
 </p>
 
@@ -606,9 +519,10 @@ It is simply another layer.
 
 
 
+
 <h2>
 
-Level 5 — The File Has A Story
+The File Has A Story
 
 </h2>
 
@@ -639,7 +553,7 @@ libpthread.so.0
 
 <p>
 
-Every dependency gives another clue.
+Dependencies provide another part of the story.
 
 </p>
 
@@ -647,9 +561,10 @@ Every dependency gives another clue.
 
 
 
+
 <h2>
 
-Level 6 — Process DNA
+Process DNA
 
 </h2>
 
@@ -685,9 +600,10 @@ It is about why it exists.
 
 
 
+
 <h2>
 
-Level 7 — Kernel Vision
+Kernel Vision
 
 </h2>
 
@@ -713,9 +629,9 @@ connect
 
 <p>
 
-The kernel sees actions.
+The operating system sees actions.
 
-Researchers translate those actions into understanding.
+Researchers connect those actions into meaning.
 
 </p>
 
@@ -723,9 +639,11 @@ Researchers translate those actions into understanding.
 
 
 
+
+
 <h2>
 
-Level 8 — The 2026 Investigation Model
+The 2026 Investigation Model
 
 </h2>
 
@@ -762,11 +680,9 @@ TIMELINE
 
 <p>
 
-Modern security research is about connecting evidence.
+Modern security research is not about finding one magic indicator.
 
-A single indicator can disappear.
-
-A behaviour pattern tells the story.
+It is about understanding relationships.
 
 </p>
 
@@ -774,9 +690,10 @@ A behaviour pattern tells the story.
 
 
 
+
 <h2>
 
-Final Thoughts
+Going Deeper
 
 </h2>
 
@@ -784,9 +701,11 @@ Final Thoughts
 
 <div class="quote">
 
-The system does not care what something looks like.
+A beginner sees characters.
 
-It cares what it becomes.
+A researcher sees layers.
+
+An investigator sees behaviour.
 
 </div>
 
@@ -811,25 +730,31 @@ I hope you enjoyed this read.
 
 
 
+<p>
+
+Team sl0ppyr00t
+
+<br>
+
+~x0xr00t~
+
+</p>
+
+
+
 </div>
 
 
 
 
 
-<footer class="footer">
+<footer>
 
-
-Team sl0ppyr00t
-
-<br><br>
-
-~x0xr00t~
+Funny Deadly Linux Strings Part 3
 
 <br><br>
 
 Linux Analysis • Reverse Engineering • Security Research
-
 
 </footer>
 
