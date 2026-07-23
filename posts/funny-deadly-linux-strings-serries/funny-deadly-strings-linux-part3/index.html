@@ -2,857 +2,241 @@
 <html lang="en">
 
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>
-Funny Deadly Linux Strings Part 3 | x0xr00t
-</title>
-
-
-<style>
-
-:root {
-
---bg:#080808;
---panel:#101010;
---border:#292929;
---text:#dddddd;
---green:#00ff66;
---cyan:#00eaff;
---muted:#888;
-
-}
-
-
-* {
-
-box-sizing:border-box;
-
-}
-
-
-body {
-
-margin:0;
-
-background:
-
-radial-gradient(circle at top,#151515,#050505 65%);
-
-color:var(--text);
-
-font-family:
-
-Arial,
-Helvetica,
-sans-serif;
-
-}
-
-
-
-.article {
-
-max-width:900px;
-
-margin:auto;
-
-padding:40px 25px;
-
-}
-
-
-
-.logo {
-
-font-family:
-
-"Courier New",
-monospace;
-
-color:var(--green);
-
-letter-spacing:3px;
-
-}
-
-
-
-.category {
-
-margin-top:30px;
-
-color:var(--green);
-
-font-family:monospace;
-
-letter-spacing:4px;
-
-}
-
-
-
-h1 {
-
-font-size:
-
-clamp(38px,6vw,65px);
-
-color:white;
-
-line-height:1.1;
-
-}
-
-
-
-.subtitle {
-
-font-size:24px;
-
-color:var(--cyan);
-
-}
-
-
-
-.meta {
-
-margin-top:20px;
-
-color:var(--muted);
-
-}
-
-
-
-.content {
-
-margin-top:50px;
-
-}
-
-
-
-p {
-
-font-size:18px;
-
-line-height:1.8;
-
-}
-
-
-
-h2 {
-
-margin-top:70px;
-
-color:white;
-
-border-left:
-
-4px solid var(--green);
-
-padding-left:15px;
-
-}
-
-
-
-.quote {
-
-background:#050505;
-
-border-left:
-
-3px solid var(--green);
-
-padding:25px;
-
-font-style:italic;
-
-}
-
-
-
-pre {
-
-background:#000;
-
-border:
-
-1px solid var(--border);
-
-padding:25px;
-
-overflow:auto;
-
-font-family:
-
-"Courier New",
-monospace;
-
-color:#00ff99;
-
-line-height:1.7;
-
-}
-
-
-
-.caption {
-
-margin-top:15px;
-
-padding-left:15px;
-
-border-left:
-
-3px solid var(--cyan);
-
-color:#999;
-
-}
-
-
-
-footer {
-
-margin-top:80px;
-
-border-top:
-
-1px solid var(--border);
-
-padding-top:30px;
-
-text-align:center;
-
-color:#777;
-
-}
-
-
-</style>
-
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funny Deadly Linux Strings Part 3 | x0xr00t</title>
+    <style>
+        :root {
+            --bg: #080808;
+            --panel: #101010;
+            --border: #292929;
+            --text: #dddddd;
+            --green: #00ff66;
+            --cyan: #00eaff;
+            --muted: #888;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: radial-gradient(circle at top, #151515, #050505 65%);
+            color: var(--text);
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .article {
+            max-width: 900px;
+            margin: auto;
+            padding: 40px 25px;
+        }
+
+        .logo {
+            font-family: "Courier New", monospace;
+            color: var(--green);
+            letter-spacing: 3px;
+        }
+
+        .category {
+            margin-top: 30px;
+            color: var(--green);
+            font-family: monospace;
+            letter-spacing: 4px;
+        }
+
+        h1 {
+            font-size: clamp(38px, 6vw, 65px);
+            color: white;
+            line-height: 1.1;
+        }
+
+        .subtitle {
+            font-size: 24px;
+            color: var(--cyan);
+        }
+
+        .meta {
+            margin-top: 20px;
+            color: var(--muted);
+        }
+
+        .content {
+            margin-top: 50px;
+        }
+
+        p {
+            font-size: 18px;
+            line-height: 1.8;
+        }
+
+        h2 {
+            margin-top: 70px;
+            color: white;
+            border-left: 4px solid var(--green);
+            padding-left: 15px;
+        }
+
+        .quote {
+            background: #050505;
+            border-left: 3px solid var(--green);
+            padding: 25px;
+            font-style: italic;
+        }
+
+        pre {
+            background: #000;
+            border: 1px solid var(--border);
+            padding: 25px;
+            overflow: auto;
+            font-family: "Courier New", monospace;
+            color: #00ff99;
+            line-height: 1.7;
+        }
+
+        .caption {
+            margin-top: 15px;
+            padding-left: 15px;
+            border-left: 3px solid var(--cyan);
+            color: #999;
+        }
+
+        footer {
+            margin-top: 80px;
+            border-top: 1px solid var(--border);
+            padding-top: 30px;
+            text-align: center;
+            color: #777;
+        }
+    </style>
 </head>
-
 
 <body>
 
+    <div class="article">
 
-<div class="article">
+        <div class="logo">
+            SECJUICE STYLE // TECHNICAL // OSINT
+        </div>
 
+        <div class="category">
+            TECHNICAL
+        </div>
 
+        <h1>Funny Deadly Linux Strings Part 3</h1>
 
-<div class="logo">
+        <div class="subtitle">
+            The Rabbit Hole Goes Deeper — Advanced WAF Bypass & Dynamic Strings 2026
+        </div>
 
-SECJUICE STYLE // TECHNICAL // OSINT
+        <div class="meta">
+            Security researcher <strong>Patrick Hoogeveen</strong> returns with part three of his series on deadly little Linux strings.
+            <br><br>
+            <strong>x0xr00t</strong>
+            <br>
+            July 2026
+            <br>
+            Security Research
+        </div>
 
-</div>
+        <div class="content">
 
+            <div class="quote">
+                A string is not always what you see.
+                Sometimes it is only what the system builds.
+            </div>
 
+            <p>
+                Hello folks, I'm back again with another post about funny deadly linux strings. If you remember my previous articles on this subject, we covered how we can use escape chars, slashes, and quotes to execute code that triggers directly on platforms like Kali Linux.
+            </p>
 
-<div class="category">
+            <p>
+                I noticed that on older environments, payloads like the following were heavily effective for basic filters:
+            </p>
 
-TECHNICAL
+            <pre>
+* e/c/h/o/ "id" | b/a/s/h/ $()
+* /e/c/h/o "id" | b/a/s/h/ $() | e/c/h/o "ls -la" | b/a/s/h/ $()
+* e'c'h'o "id" | ""b""a""s""h"" $() & "e"c'h'o "ls -la" | ""b""a""s""h"" $()
+            </pre>
 
-</div>
+            <p>
+                But modern Web Application Firewalls (WAF) and EDR systems in 2026 have evolved. Standard quote insertion and simple rot47 transformations are often caught. So here we go again; it is time to upgrade our obfuscation vectors using dynamic reconstruction.
+            </p>
 
+            <h2>Method 1: Slicing & Environment Variable Concatenation</h2>
 
+            <p>
+                Instead of invoking commands directly or using simple quotes, we can abuse existing environment variables like <code style="color:var(--cyan);">$PATH</code> to extract single characters and assemble our execution strings completely in memory.
+            </p>
 
-<h1>
+            <pre>
+${PATH:0:1}u${PATH:10:1}r${PATH:0:1}b${PATH:10:1}n${PATH:0:1}e${PATH:10:1}c${PATH:10:1}h${PATH:10:1}o "id" | ${PATH:0:1}u${PATH:10:1}r${PATH:0:1}b${PATH:10:1}n${PATH:0:1}b${PATH:10:1}a${PATH:10:1}s${PATH:10:1}h
+            </pre>
 
-Funny Deadly Linux Strings Part 3
+            <div class="caption">
+                Analysis: The defensive sensor only sees environment variable indexing operations. The string "echo" and "bash" are constructed fluidly at runtime, avoiding static signature matches.
+            </div>
 
-</h1>
+            <h2>Method 2: Hex / Octal Encoding Layers</h2>
 
+            <p>
+                Numerical representation bypasses standard keyword detection seamlessly. By utilizing built-in interpreters like <code style="color:var(--cyan);">printf</code>, we translate raw hex bytes into a weaponized command vector executing straight into an evaluation block.
+            </p>
 
+            <pre>
+$(printf '\x65\x63\x68\x6f') "id" | $(printf '\x62\x61\x73\x68')
+            </pre>
 
-<div class="subtitle">
+            <p>
+                To an automated filter, this appears as an arbitrary sequence of backslashes and hex codes, yet the shell instantly evaluates the numerical bytes back into raw executable binary keywords.
+            </p>
 
-The Rabbit Hole Goes Deeper — Dynamic Strings & Linux Analysis 2026
+            <h2>Method 3: Base64 Dynamic Interpretation</h2>
 
-</div>
+            <p>
+                When dealing with complex logic (like a root-check routine or multi-stage enumeration), passing raw blocks will fail. Here, we feed a clean Base64 blob into a dynamic heredoc/pipe stream without spawning obvious secondary file artifacts.
+            </p>
 
+            <pre>
+sh<<<$(base64 -d<<<ZWNobyAiaWQiIHwgYmFzaA==)
+            </pre>
 
+            <p>
+                By injecting the decoded payload directly into the standard input stream using the Here-String (<code style="color:var(--cyan);">&lt;&lt;&lt;</code>) operator, detection patterns looking for traditional piping or temporary files are entirely blindsided.
+            </p>
 
-<div class="meta">
+            <h2>Gunning For Root</h2>
 
-x0xr00t
+            <p>
+                If one would use this to either obfuscate execution methods or prevent strict pattern matching, the key takeaway remains: security research is not about finding a single suspicious string anymore. It is about understanding how variables, encodings, and shell interpreters can blend to reconstruct behavior dynamically.
+            </p>
 
-<br>
-
-July 2026
-
-<br>
-
-Security Research
-
-</div>
-
-
-
-
-
-<div class="content">
-
-
-<div class="quote">
-
-A string is not always what you see.
-
-Sometimes it is only what the system builds.
-
-</div>
-
-
-
-<p>
-
-Hello folks, I'm back again with another post about funny deadly Linux strings.
-
-</p>
-
-
-
-<p>
-
-If you remember my previous articles, we explored how Linux strings can be
-represented differently through escaping, encoding and transformation layers.
-
-</p>
-
-
-<p>
-
-This time we go deeper into dynamic reconstruction.
-
-The visible text is only one part of the investigation.
-
-</p>
-
-
-
-
-
-<h2>
-
-So here we go again,
-
-</h2>
-
-
-
-<pre>
-
-STRING
-
- |
-
- v
-
-REPRESENTATION
-
- |
-
- v
-
-TRANSFORMATION
-
- |
-
- v
-
-INTERPRETER
-
- |
-
- v
-
-BEHAVIOUR
-
-
-</pre>
-
-
-
-
-
-<h2>
-
-Slicing & Dynamic Concatenation
-
-</h2>
-
-
-
-<p>
-
-One interesting research area is dynamic string construction.
-
-Instead of storing a complete readable value, characters may be reconstructed
-from smaller fragments.
-
-</p>
-
-
-
-<pre>
-
-Research Artifact:
-
-
-${ENV:value}
-
-+
-
-${ENV:value}
-
-+
-
-${ENV:value}
-
-
-
-Analysis:
-
-
-[+] Character extraction pattern detected
-
-[+] Dynamic reconstruction identified
-
-[+] Final representation recovered
-
-[+] Context requires review
-
-</pre>
-
-
-
-<p>
-
-During analysis the important questions are:
-
-</p>
-
-
-
-<pre>
-
-Where do the characters originate?
-
-When are they reconstructed?
-
-Which component interprets them?
-
-What behaviour follows?
-
-
-</pre>
-
-
-
-
-
-<h2>
-
-Hex / Octal Encoding Layers
-
-</h2>
-
-
-
-<p>
-
-Another common representation method is storing characters as numerical values.
-
-</p>
-
-
-
-<pre>
-
-Observed:
-
-
-\x65\x78\x61\x6d\x70\x6c\x65
-
-
-
-Analysis:
-
-
-[+] Hex representation detected
-
-[+] Byte conversion performed
-
-[+] Text recovered
-
-[+] Meaning analysed
-
-
-</pre>
-
-
-
-<div class="caption">
-
-The representation changes. The investigation remains the same.
-
-</div>
-
-
-
-
-
-
-<h2>
-
-Base64 Dynamic Representation
-
-</h2>
-
-
-
-<pre>
-
-Encoded Artifact:
-
-
-U2VjdXJpdHkgUmVzZWFyY2g=
-
-
-
-Analysis:
-
-
-[+] Base64 pattern detected
-
-[+] Data decoded
-
-[+] Original content recovered
-
-
-
-Result:
-
-
-Security Research
-
-
-</pre>
-
-
-
-
-<p>
-
-Base64 is not encryption.
-
-It is simply another way to represent information.
-
-</p>
-
-
-
-
-
-<h2>
-
-Transformation Rabbit Hole
-
-</h2>
-
-
-
-<pre>
-
-Artifact:
-
-
-ROTATED_DATA_SAMPLE
-
-
-
-Research:
-
-
-[+] Transformation detected
-
-[+] Mapping identified
-
-[+] Representation restored
-
-[+] Context documented
-
-
-</pre>
-
-
-
-
-
-<h2>
-
-The File Has A Story
-
-</h2>
-
-
-
-<pre>
-
-$ file unknown.bin
-
-
-ELF 64-bit executable
-
-
-
-$ ldd unknown.bin
-
-
-linux-vdso.so.1
-
-libc.so.6
-
-libpthread.so.0
-
-
-</pre>
-
-
-
-<p>
-
-The string is only one clue.
-
-The file structure gives additional information.
-
-</p>
-
-
-
-
-
-
-<h2>
-
-Process DNA
-
-</h2>
-
-
-
-<pre>
-
-$ pstree -p
-
-
-systemd(1)
-
- ├── sshd(900)
-
- ├── terminal(2200)
-
- └── application(3100)
-
-
-</pre>
-
-
-
-<p>
-
-A process name alone does not explain behaviour.
-
-Context creates understanding.
-
-</p>
-
-
-
-
-
-
-<h2>
-
-Kernel Vision
-
-</h2>
-
-
-
-<pre>
-
-$ strace -c application
-
-
-openat
-
-read
-
-write
-
-connect
-
-
-</pre>
-
-
-
-<p>
-
-The kernel provides another layer of evidence.
-
-</p>
-
-
-
-
-
-
-<h2>
-
-The 2026 Research Model
-
-</h2>
-
-
-
-<pre>
-
-STRING
-
- |
-
- v
-
-REPRESENTATION
-
- |
-
- v
-
-PROCESS
-
- |
-
- v
-
-FILES
-
- |
-
- v
-
-NETWORK
-
- |
-
- v
-
-MEMORY
-
- |
-
- v
-
-TIMELINE
-
-
-</pre>
-
-
-
-<p>
-
-Modern security research is not about finding one suspicious string.
-
-It is about connecting all available evidence.
-
-</p>
-
-
-
-
-
-
-<h2>
-
-Final Thoughts
-
-</h2>
-
-
-
-<div class="quote">
-
-A beginner sees characters.
-
-A researcher sees transformations.
-
-An investigator sees behaviour.
-
-</div>
-
-
-
-<p>
-
-The rabbit hole continues.
-
-The deeper you analyse, the more layers you discover.
-
-</p>
-
-
-
-<p>
-
-I hope you enjoyed this read.
-
-</p>
-
-
-
-<p>
-
-Team sl0ppyr00t
-
-<br>
-
-~x0xr00t~
-
-</p>
-
-
-
-</div>
-
-
-
-
-
-<footer>
-
-Funny Deadly Linux Strings Part 3
-
-<br><br>
-
-Linux Analysis • Reverse Engineering • Security Research
-
-</footer>
-
-
-
-</div>
-
+            <div class="quote">
+                A beginner sees characters.
+                A researcher sees transformations.
+                An investigator sees behaviour.
+            </div>
+
+            <p>
+                The rabbit hole continues. The deeper you analyse, the more layers you discover.
+            </p>
+
+            <p>
+                Team sl0ppyr00t<br>
+                ~x0xr00t~
+            </p>
+
+        </div>
+
+        <footer>
+            Funny Deadly Linux Strings Part 3
+            <br><br>
+            Linux Analysis • Reverse Engineering • Security Research
+        </footer>
+
+    </div>
 
 </body>
 
