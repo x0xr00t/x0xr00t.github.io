@@ -1,12 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Funny Deadly Linux Strings Part 3 | x0xr00t</title>
-
 <style>
 
 :root {
@@ -22,37 +13,31 @@
 
 
 * {
-    box-sizing:border-box;
+    box-sizing: border-box;
 }
 
 
 body {
-
-    margin:0;
-
+    margin: 0;
     background:
-    radial-gradient(circle at top,#102010 0%,#050505 45%);
-
-    color:var(--text);
-
-    font-family:"Courier New",monospace;
-
-    line-height:1.7;
-
+    radial-gradient(circle at top, #102010 0%, #050505 45%);
+    color: var(--text);
+    font-family: "Courier New", monospace;
+    line-height: 1.7;
 }
 
 
 body::before {
 
-    content:"";
+    content: "";
 
-    position:fixed;
+    position: fixed;
 
-    inset:0;
+    inset: 0;
 
     background:
     linear-gradient(
-        rgba(255,255,255,.025) 1px,
+        rgba(255,255,255,0.025) 1px,
         transparent 1px
     );
 
@@ -61,6 +46,7 @@ body::before {
     pointer-events:none;
 
 }
+
 
 
 .container {
@@ -74,7 +60,10 @@ body::before {
 }
 
 
-/* HERO */
+
+/* ==========================
+        HERO SECTION
+========================== */
 
 
 .hero {
@@ -83,12 +72,13 @@ body::before {
 
     padding:50px 20px;
 
-    background:rgba(0,0,0,.8);
+    background:
+    rgba(0,0,0,0.8);
 
     border:1px solid var(--border);
 
     box-shadow:
-    0 0 30px rgba(0,255,102,.15);
+    0 0 30px rgba(0,255,102,0.15);
 
 }
 
@@ -113,7 +103,10 @@ body::before {
 
     color:white;
 
-    font-size:clamp(28px,5vw,55px);
+    font-size:
+    clamp(28px,5vw,55px);
+
+    margin:20px 0;
 
 }
 
@@ -135,7 +128,9 @@ body::before {
 
 
 
-/* CONTENT */
+/* ==========================
+        ARTICLE CONTENT
+========================== */
 
 
 .section {
@@ -144,13 +139,15 @@ body::before {
 
     padding:30px;
 
-    background:rgba(10,10,10,.85);
+    background:
+    rgba(10,10,10,0.85);
 
     border:1px solid var(--border);
 
     border-radius:8px;
 
-    animation:fade 1s ease;
+    animation:
+    fade 1s ease;
 
 }
 
@@ -160,9 +157,18 @@ body::before {
 
     color:var(--green);
 
-    border-left:4px solid var(--green);
+    border-left:
+    4px solid var(--green);
 
     padding-left:15px;
+
+}
+
+
+
+.section h3 {
+
+    color:var(--cyan);
 
 }
 
@@ -176,20 +182,9 @@ p {
 
 
 
-.quote {
-
-    background:#080808;
-
-    border-left:3px solid var(--red);
-
-    padding:20px;
-
-    color:white;
-
-    font-style:italic;
-
-}
-
+/* ==========================
+        TERMINAL BLOCKS
+========================== */
 
 
 .terminal {
@@ -207,7 +202,19 @@ p {
     overflow:auto;
 
     box-shadow:
-    inset 0 0 20px rgba(0,255,102,.08);
+    inset 0 0 20px rgba(0,255,102,0.08);
+
+}
+
+
+
+.terminal-title {
+
+    color:var(--green);
+
+    font-weight:bold;
+
+    margin-bottom:10px;
 
 }
 
@@ -237,14 +244,31 @@ p {
 
 
 
-.terminal-title {
+/* ==========================
+        QUOTES
+========================== */
 
-    color:var(--green);
 
-    font-weight:bold;
+.quote {
+
+    background:#080808;
+
+    border-left:
+    3px solid var(--red);
+
+    padding:20px;
+
+    color:white;
+
+    font-style:italic;
 
 }
 
+
+
+/* ==========================
+        BADGES
+========================== */
 
 
 .badge {
@@ -253,7 +277,8 @@ p {
 
     padding:6px 12px;
 
-    border:1px solid var(--green);
+    border:
+    1px solid var(--green);
 
     color:var(--green);
 
@@ -263,6 +288,11 @@ p {
 
 }
 
+
+
+/* ==========================
+        FOOTER
+========================== */
 
 
 footer {
@@ -289,19 +319,28 @@ footer {
 
     background:var(--green);
 
-    animation:blink 1s infinite;
+    animation:
+    blink 1s infinite;
 
 }
 
+
+
+/* ==========================
+        ANIMATIONS
+========================== */
 
 
 @keyframes blink {
 
     50% {
+
         opacity:0;
+
     }
 
 }
+
 
 
 @keyframes fade {
@@ -310,9 +349,11 @@ footer {
 
         opacity:0;
 
-        transform:translateY(20px);
+        transform:
+        translateY(20px);
 
     }
+
 
     to {
 
@@ -325,744 +366,5 @@ footer {
 }
 
 
+
 </style>
-
-</head>
-
-
-<body>
-
-
-<div class="container">
-
-
-
-<section class="hero">
-
-
-<div class="ascii">
-
-██████╗ ██╗  ██╗ ██████╗ ██████╗ ██████╗ ████████╗
-██╔══██╗██║  ██║██╔═══██╗██╔══██╗██╔══██╗╚══██╔══╝
-██████╔╝███████║██║   ██║██████╔╝██████╔╝   ██║
-██╔═══╝ ██╔══██║██║   ██║██╔══██╗██╔═══╝    ██║
-██║     ██║  ██║╚██████╔╝██║  ██║██║        ██║
-╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚═╝        ╚═╝
-
-</div>
-
-
-<h1 class="title">
-
-Funny Deadly Linux Strings Part 3
-
-</h1>
-
-
-<div class="subtitle">
-
-The Rabbit Hole Gets Deeper — Linux String Analysis & Security Research 2026
-
-</div>
-
-
-<p class="meta">
-
-Security researcher Patrick Hoogeveen returns with another journey into Linux string analysis.
-
-</p>
-
-
-
-<span class="badge">Linux</span>
-<span class="badge">Reverse Engineering</span>
-<span class="badge">Security Research</span>
-<span class="badge">OSINT</span>
-
-
-</section>
-
-
-
-
-
-<section class="section">
-
-
-<h2>Introduction</h2>
-
-
-<div class="quote">
-
-Reality is not what you see.
-<br>
-Reality is what the system interprets.
-
-</div>
-
-
-<p>
-
-Hello folks, I'm back again with another post about funny deadly Linux strings.
-
-</p>
-
-
-<p>
-
-If you remember my previous articles, we explored how small changes in Linux strings can completely change what a human sees compared to what the system interprets.
-
-</p>
-
-
-<p>
-
-The interesting part was never only the string.
-
-The interesting part was the journey.
-
-</p>
-
-
-<div class="terminal">
-
-<span class="prompt">
-Human eyes
-</span>
-
-<br>
-↓
-
-<br>
-
-<span class="code">
-Parser layer
-</span>
-
-<br>
-↓
-
-<br>
-
-<span class="code">
-Interpreter
-</span>
-
-<br>
-↓
-
-<br>
-
-<span class="code">
-Operating system
-</span>
-
-<br>
-↓
-
-<br>
-
-<span class="output">
-Observed behaviour
-</span>
-
-</div>
-
-
-</section>
-
-
-
-
-
-<section class="section">
-
-
-<h2>LEVEL 1 — The First Layer Is Usually Not The Truth</h2>
-
-
-<p>
-
-During research, the first representation is rarely the complete story.
-
-</p>
-
-
-<div class="terminal">
-
-
-<div class="terminal-title">
-
-Observed artifact
-
-</div>
-
-
-<span class="output">
-
-U2VjdXJpdHkgUmVzZWFyY2g=
-
-</span>
-
-
-<br><br>
-
-
-<div class="terminal-title">
-
-Decoded analysis result
-
-</div>
-
-
-<span class="code">
-
-Security Research
-
-</span>
-
-
-</div>
-
-
-<p>
-
-The representation changed.
-
-The meaning was recovered.
-
-</p>
-
-
-</section>
-
-
-
-
-
-<section class="section">
-
-
-<h2>LEVEL 2 — String Hunting</h2>
-
-
-<div class="terminal">
-
-
-<span class="prompt">
-
-$ strings sample.bin
-
-</span>
-
-
-<br><br>
-
-
-<span class="output">
-
-/lib64/ld-linux-x86-64.so.2
-<br>
-libc.so.6
-<br>
-GLIBC_2.34
-<br>
-configuration
-<br>
-network_manager
-<br>
-update_service
-
-</span>
-
-
-</div>
-
-
-<p>
-
-A beginner sees text.
-
-A researcher sees evidence.
-
-</p>
-
-
-</section>
-
-
-
-
-
-<section class="section">
-
-
-<h2>LEVEL 3 — The File Has A Story</h2>
-
-
-<div class="terminal">
-
-
-<span class="prompt">
-
-$ file mystery.bin
-
-</span>
-
-
-<br><br>
-
-
-<span class="output">
-
-mystery.bin: ELF 64-bit LSB executable
-
-</span>
-
-
-<br><br>
-
-
-<span class="prompt">
-
-$ ldd mystery.bin
-
-</span>
-
-
-<br><br>
-
-
-<span class="output">
-
-linux-vdso.so.1
-<br>
-libc.so.6
-<br>
-libpthread.so.0
-
-</span>
-
-
-</div>
-
-
-</section>
-
-
-
-
-
-<section class="section">
-
-
-<h2>LEVEL 4 — String Mutation Layers</h2>
-
-
-<p>
-
-A string can travel through many representations.
-
-</p>
-
-
-<div class="terminal">
-
-
-<span class="code">
-
-VISIBLE STRING
-
-</span>
-
-
-<br>
-↓
-
-<br>
-
-
-<span class="code">
-
-TRANSFORMATION
-
-</span>
-
-
-<br>
-↓
-
-<br>
-
-
-<span class="code">
-
-DECODED CONTENT
-
-</span>
-
-
-<br>
-↓
-
-<br>
-
-
-<span class="output">
-
-BEHAVIOUR ANALYSIS
-
-</span>
-
-
-</div>
-
-
-</section>
-
-
-
-
-
-<section class="section">
-
-
-<h2>LEVEL 5 — ROT Rabbit Hole</h2>
-
-
-<div class="terminal">
-
-
-<div class="terminal-title">
-
-Encoded artifact
-
-</div>
-
-
-<span class="output">
-
-:7 , QSt&xsQ ?6 \_
-
-</span>
-
-
-<br><br>
-
-
-<div class="terminal-title">
-
-Analysis
-
-</div>
-
-
-<span class="code">
-
-Transformation identified
-
-<br>
-Readable representation recovered
-
-</span>
-
-
-</div>
-
-
-<p>
-
-Encoding is not protection.
-
-Encoding is transformation.
-
-</p>
-
-
-</section>
-
-
-
-
-
-<section class="section">
-
-
-<h2>LEVEL 6 — Process DNA</h2>
-
-
-<div class="terminal">
-
-
-<span class="prompt">
-
-$ pstree -p
-
-</span>
-
-
-<br><br>
-
-
-<span class="output">
-
-systemd(1)
-
-<br>
- ├── sshd(900)
-
-<br>
- ├── terminal(3001)
-
-<br>
-     └── application(3100)
-
-</span>
-
-
-</div>
-
-
-<p>
-
-Security is not only about what exists.
-
-It is about why it exists.
-
-</p>
-
-
-</section>
-
-
-
-
-
-<section class="section">
-
-
-<h2>LEVEL 7 — Kernel Vision</h2>
-
-
-<div class="terminal">
-
-
-<span class="prompt">
-
-$ strace -c application
-
-</span>
-
-
-<br><br>
-
-
-<span class="output">
-
-openat
-<br>
-read
-<br>
-write
-<br>
-connect
-
-</span>
-
-
-</div>
-
-
-<p>
-
-The operating system does not see names.
-
-It sees actions.
-
-</p>
-
-
-</section>
-
-
-
-
-
-<section class="section">
-
-
-<h2>LEVEL 8 — The 2026 Intelligence Mindset</h2>
-
-
-<p>
-
-Modern security is about relationships.
-
-</p>
-
-
-<div class="terminal">
-
-
-USER
-
-<br>
-↓
-
-<br>
-
-PROCESS
-
-<br>
-↓
-
-<br>
-
-FILES
-
-<br>
-↓
-
-<br>
-
-NETWORK
-
-<br>
-↓
-
-<br>
-
-MEMORY
-
-
-</div>
-
-
-<p>
-
-One indicator can disappear.
-
-A behaviour pattern tells the story.
-
-</p>
-
-
-</section>
-
-
-
-
-
-<section class="section">
-
-
-<h2>Final Thoughts</h2>
-
-
-<div class="quote">
-
-The system does not care what something looks like.
-<br>
-It cares what it becomes.
-
-</div>
-
-
-<p>
-
-The funniest deadly Linux strings were never interesting because they were complicated.
-
-They were interesting because they challenged assumptions.
-
-</p>
-
-
-<div class="terminal">
-
-STRING
-
-<br>
-↓
-
-<br>
-
-TRANSFORMATION
-
-<br>
-↓
-
-<br>
-
-INTERPRETATION
-
-<br>
-↓
-
-<br>
-
-BEHAVIOUR
-
-</div>
-
-
-</section>
-
-
-
-
-
-<footer>
-
-
-x0xr00t © 2026
-
-<br>
-
-Security Research • Linux Analysis • Reverse Engineering
-
-
-<br><br>
-
-
-Team sl0ppyr00t
-
-<br><br>
-
-
-<span class="cursor"></span>
-
-
-</footer>
-
-
-
-
-</div>
-
-
-
-<script>
-
-
-console.log(
-"%c[x0xr00t] Research page loaded",
-"color:#00ff66;font-size:18px"
-);
-
-
-
-document.querySelectorAll(".section")
-.forEach((section,index)=>{
-
-section.style.animationDelay =
-(index * 0.15)+"s";
-
-});
-
-
-</script>
-
-
-</body>
-
-</html>
