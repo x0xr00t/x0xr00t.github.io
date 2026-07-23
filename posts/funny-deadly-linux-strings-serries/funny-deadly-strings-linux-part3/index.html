@@ -8,14 +8,7 @@
         :root { --bg: #080808; --panel: #101010; --border: #292929; --text: #dddddd; --green: #00ff66; --cyan: #00eaff; --muted: #888; }
         body { margin: 0; background: radial-gradient(circle at top, #151515, #050505 65%); color: var(--text); font-family: Arial, Helvetica, sans-serif; }
         .article { max-width: 900px; margin: auto; padding: 40px 25px; }
-        .logo-nav { display: flex; justify-content: space-between; align-items: center; font-family: "Courier New", monospace; border-bottom: 1px solid var(--border); padding-bottom: 15px; margin-bottom: 30px; }
-        .logo { color: white; font-weight: bold; font-size: 24px; text-decoration: none; }
-        .nav-links { display: flex; gap: 20px; list-style: none; margin: 0; padding: 0; }
-        .nav-links a { color: var(--muted); text-decoration: none; font-size: 14px; }
-        .nav-links a:hover { color: var(--green); }
-        .subscribe-btn { background: transparent; border: 1px solid var(--green); color: var(--green); padding: 5px 15px; cursor: pointer; font-family: monospace; }
-        .subscribe-btn:hover { background: var(--green); color: black; }
-        .category { color: var(--green); font-family: monospace; letter-spacing: 4px; font-weight: bold; margin-bottom: 10px; }
+        .category { color: var(--green); font-family: monospace; letter-spacing: 4px; font-weight: bold; margin-bottom: 10px; margin-top: 30px; }
         h1 { font-size: clamp(38px, 6vw, 55px); color: white; line-height: 1.1; margin: 10px 0; }
         .subtitle { font-size: 20px; color: var(--muted); line-height: 1.4; margin-bottom: 30px; }
         .meta-container { display: flex; align-items: center; gap: 15px; border-bottom: 1px solid var(--border); padding-bottom: 25px; margin-bottom: 40px; }
@@ -33,16 +26,6 @@
 </head>
 <body>
     <div class="article">
-        <nav class="logo-nav">
-            <a href="#" class="logo">Secjuice</a>
-            <ul class="nav-links">
-                <li><a href="#">Technical</a></li>
-                <li><a href="#">OSINT</a></li>
-                <li><a href="#">Crypto</a></li>
-                <li><a href="#">Journeys</a></li>
-            </ul>
-            <button class="subscribe-btn">Subscribe</button>
-        </nav>
         <div class="category">TECHNICAL</div>
         <h1>Funny Deadly Linux Strings Part 3</h1>
         <div class="subtitle">Security researcher x0xr00t returns with part three of his series on deadly little Linux strings.</div>
@@ -71,7 +54,7 @@
         <footer>
             Funny Deadly Linux Strings Part 3
             <br><br>
-            © 2026 x0xr00t
+            © 2026 Secjuice.
         </footer>
     </div>
 </body>
