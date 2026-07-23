@@ -1,8 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Funny Deadly Linux Strings Part 3 | x0xr00t</title>
+
 <style>
 
 :root {
     --bg:#050505;
-    --panel:#0b0b0b;
     --border:#252525;
     --text:#d7ffd7;
     --green:#00ff66;
@@ -13,31 +21,37 @@
 
 
 * {
-    box-sizing: border-box;
+    box-sizing:border-box;
 }
 
 
 body {
-    margin: 0;
+
+    margin:0;
+
     background:
-    radial-gradient(circle at top, #102010 0%, #050505 45%);
-    color: var(--text);
-    font-family: "Courier New", monospace;
-    line-height: 1.7;
+    radial-gradient(circle at top,#102010 0%,#050505 45%);
+
+    color:var(--text);
+
+    font-family:"Courier New",monospace;
+
+    line-height:1.7;
+
 }
 
 
 body::before {
 
-    content: "";
+    content:"";
 
-    position: fixed;
+    position:fixed;
 
-    inset: 0;
+    inset:0;
 
     background:
     linear-gradient(
-        rgba(255,255,255,0.025) 1px,
+        rgba(255,255,255,.025) 1px,
         transparent 1px
     );
 
@@ -46,7 +60,6 @@ body::before {
     pointer-events:none;
 
 }
-
 
 
 .container {
@@ -61,27 +74,20 @@ body::before {
 
 
 
-/* ==========================
-        HERO SECTION
-========================== */
-
-
 .hero {
 
     text-align:center;
 
     padding:50px 20px;
 
-    background:
-    rgba(0,0,0,0.8);
+    background:rgba(0,0,0,.8);
 
     border:1px solid var(--border);
 
     box-shadow:
-    0 0 30px rgba(0,255,102,0.15);
+    0 0 30px rgba(0,255,102,.15);
 
 }
-
 
 
 .ascii {
@@ -91,25 +97,20 @@ body::before {
     text-shadow:
     0 0 10px var(--green);
 
-    overflow:auto;
-
     white-space:pre;
 
-}
+    overflow:auto;
 
+}
 
 
 .title {
 
     color:white;
 
-    font-size:
-    clamp(28px,5vw,55px);
-
-    margin:20px 0;
+    font-size:clamp(28px,5vw,55px);
 
 }
-
 
 
 .subtitle {
@@ -117,7 +118,6 @@ body::before {
     color:var(--cyan);
 
 }
-
 
 
 .meta {
@@ -128,47 +128,30 @@ body::before {
 
 
 
-/* ==========================
-        ARTICLE CONTENT
-========================== */
-
-
 .section {
 
     margin-top:40px;
 
     padding:30px;
 
-    background:
-    rgba(10,10,10,0.85);
+    background:rgba(10,10,10,.85);
 
     border:1px solid var(--border);
 
     border-radius:8px;
 
-    animation:
-    fade 1s ease;
+    animation:fade 1s ease;
 
 }
-
 
 
 .section h2 {
 
     color:var(--green);
 
-    border-left:
-    4px solid var(--green);
+    border-left:4px solid var(--green);
 
     padding-left:15px;
-
-}
-
-
-
-.section h3 {
-
-    color:var(--cyan);
 
 }
 
@@ -182,9 +165,20 @@ p {
 
 
 
-/* ==========================
-        TERMINAL BLOCKS
-========================== */
+.quote {
+
+    background:#080808;
+
+    border-left:3px solid var(--red);
+
+    padding:20px;
+
+    color:white;
+
+    font-style:italic;
+
+}
+
 
 
 .terminal {
@@ -202,19 +196,7 @@ p {
     overflow:auto;
 
     box-shadow:
-    inset 0 0 20px rgba(0,255,102,0.08);
-
-}
-
-
-
-.terminal-title {
-
-    color:var(--green);
-
-    font-weight:bold;
-
-    margin-bottom:10px;
+    inset 0 0 20px rgba(0,255,102,.08);
 
 }
 
@@ -227,13 +209,11 @@ p {
 }
 
 
-
 .code {
 
     color:#00ffaa;
 
 }
-
 
 
 .output {
@@ -243,32 +223,14 @@ p {
 }
 
 
+.terminal-title {
 
-/* ==========================
-        QUOTES
-========================== */
+    color:var(--green);
 
-
-.quote {
-
-    background:#080808;
-
-    border-left:
-    3px solid var(--red);
-
-    padding:20px;
-
-    color:white;
-
-    font-style:italic;
+    font-weight:bold;
 
 }
 
-
-
-/* ==========================
-        BADGES
-========================== */
 
 
 .badge {
@@ -277,8 +239,7 @@ p {
 
     padding:6px 12px;
 
-    border:
-    1px solid var(--green);
+    border:1px solid var(--green);
 
     color:var(--green);
 
@@ -287,12 +248,6 @@ p {
     margin:5px;
 
 }
-
-
-
-/* ==========================
-        FOOTER
-========================== */
 
 
 footer {
@@ -308,7 +263,6 @@ footer {
 }
 
 
-
 .cursor {
 
     display:inline-block;
@@ -319,25 +273,17 @@ footer {
 
     background:var(--green);
 
-    animation:
-    blink 1s infinite;
+    animation:blink 1s infinite;
 
 }
 
 
 
-/* ==========================
-        ANIMATIONS
-========================== */
-
-
 @keyframes blink {
 
-    50% {
-
-        opacity:0;
-
-    }
+50% {
+opacity:0;
+}
 
 }
 
@@ -345,26 +291,632 @@ footer {
 
 @keyframes fade {
 
-    from {
+from {
 
-        opacity:0;
+opacity:0;
 
-        transform:
-        translateY(20px);
+transform:translateY(20px);
 
-    }
+}
 
+to {
 
-    to {
+opacity:1;
 
-        opacity:1;
+transform:none;
 
-        transform:none;
-
-    }
+}
 
 }
 
 
-
 </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+
+<section class="hero">
+
+
+<div class="ascii">
+
+██████╗ ██╗  ██╗ ██████╗ ██████╗ ██████╗ ████████╗
+██╔══██╗██║  ██║██╔═══██╗██╔══██╗██╔══██╗╚══██╔══╝
+██████╔╝███████║██║   ██║██████╔╝██████╔╝   ██║
+██╔═══╝ ██╔══██║██║   ██║██╔══██╗██╔═══╝    ██║
+██║     ██║  ██║╚██████╔╝██║  ██║██║        ██║
+╚═╝     ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚═╝        ╚═╝
+
+</div>
+
+
+<h1 class="title">
+Funny Deadly Linux Strings Part 3
+</h1>
+
+
+<div class="subtitle">
+The Rabbit Hole Gets Deeper — Linux String Analysis 2026
+</div>
+
+
+<p class="meta">
+Security Research • Reverse Engineering • Linux Analysis
+</p>
+
+
+<span class="badge">Linux</span>
+<span class="badge">Strings</span>
+<span class="badge">Reverse Engineering</span>
+
+
+</section>
+
+
+
+
+
+<section class="section">
+
+
+<h2>Introduction</h2>
+
+
+<div class="quote">
+
+Reality is not what you see.<br>
+Reality is what the system interprets.
+
+</div>
+
+
+<p>
+Hello folks, I'm back again with another post about funny deadly Linux strings.
+</p>
+
+
+<p>
+The interesting part is not only the visible string.
+The interesting part is the journey through every interpretation layer.
+</p>
+
+
+<div class="terminal">
+
+<span class="prompt">
+INPUT
+</span>
+
+<br>
+↓
+
+<br>
+
+<span class="code">
+PARSER
+
+</span>
+
+<br>
+↓
+
+<br>
+
+<span class="code">
+INTERPRETER
+
+</span>
+
+<br>
+↓
+
+<br>
+
+<span class="code">
+OPERATING SYSTEM
+
+</span>
+
+<br>
+↓
+
+<br>
+
+<span class="output">
+BEHAVIOUR ANALYSIS
+
+</span>
+
+</div>
+
+
+</section>
+
+
+
+
+
+<section class="section">
+
+<h2>LEVEL 1 — String Discovery</h2>
+
+
+<div class="terminal">
+
+<div class="terminal-title">
+Command analysis
+</div>
+
+
+<span class="prompt">
+$ strings sample.bin
+</span>
+
+
+<br><br>
+
+
+<span class="output">
+
+/lib64/ld-linux-x86-64.so.2
+<br>
+libc.so.6
+<br>
+GLIBC_2.34
+<br>
+configuration
+<br>
+network_manager
+
+</span>
+
+
+</div>
+
+
+<p>
+Strings are evidence, not conclusions.
+</p>
+
+
+</section>
+
+
+
+
+
+<section class="section">
+
+<h2>LEVEL 2 — Transformation Layers</h2>
+
+
+<p>
+A researcher follows the data through every representation.
+</p>
+
+
+<div class="terminal">
+
+
+<div class="terminal-title">
+Observed artifact
+</div>
+
+
+<span class="output">
+
+U2VjdXJpdHkgUmVzZWFyY2g=
+
+</span>
+
+
+<br><br>
+
+
+<div class="terminal-title">
+Analysis result
+</div>
+
+
+<span class="code">
+
+Security Research
+
+</span>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+<section class="section">
+
+
+<h2>LEVEL 3 — Character Mutation Analysis</h2>
+
+
+<div class="terminal">
+
+<div class="terminal-title">
+Artifact example
+</div>
+
+
+<span class="output">
+
+e / c / h / o
+
+<br><br>
+
+"encoded representation"
+
+</span>
+
+
+<br><br>
+
+
+<div class="terminal-title">
+Research workflow
+</div>
+
+
+<span class="code">
+
+[+] Artifact discovered
+
+<br>
+[+] Structure analysed
+
+<br>
+[+] Transformation identified
+
+<br>
+[+] Behaviour documented
+
+</span>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+<section class="section">
+
+
+<h2>LEVEL 4 — ROT Transformation Rabbit Hole</h2>
+
+
+<div class="terminal">
+
+
+<div class="terminal-title">
+Encoded sample
+</div>
+
+
+<span class="output">
+
+:7 , QSt&amp;xsQ ?6 \_
+
+</span>
+
+
+<br><br>
+
+
+<div class="terminal-title">
+Analysis
+
+</div>
+
+
+<span class="code">
+
+Transformation detected
+
+<br>
+Readable representation recovered
+
+<br>
+Context investigated
+
+</span>
+
+
+</div>
+
+
+<p>
+Encoding changes appearance, not intent.
+</p>
+
+
+</section>
+
+
+
+
+
+<section class="section">
+
+
+<h2>LEVEL 5 — File Story</h2>
+
+
+<div class="terminal">
+
+<span class="prompt">
+$ file mystery.bin
+</span>
+
+
+<br><br>
+
+
+<span class="output">
+
+ELF 64-bit LSB executable
+
+</span>
+
+
+<br><br>
+
+
+<span class="prompt">
+$ ldd mystery.bin
+</span>
+
+
+<br><br>
+
+
+<span class="output">
+
+linux-vdso.so.1
+<br>
+libc.so.6
+<br>
+libpthread.so.0
+
+</span>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+<section class="section">
+
+
+<h2>LEVEL 6 — Process DNA</h2>
+
+
+<div class="terminal">
+
+<span class="prompt">
+$ pstree -p
+</span>
+
+
+<br><br>
+
+
+<span class="output">
+
+systemd(1)
+
+<br>
+ ├── sshd(900)
+
+<br>
+ └── application(3100)
+
+</span>
+
+
+</div>
+
+
+<p>
+Context creates intelligence.
+</p>
+
+
+</section>
+
+
+
+
+
+<section class="section">
+
+
+<h2>LEVEL 7 — Kernel Vision</h2>
+
+
+<div class="terminal">
+
+<span class="prompt">
+$ strace -c application
+</span>
+
+
+<br><br>
+
+
+<span class="output">
+
+openat
+<br>
+read
+<br>
+write
+<br>
+connect
+
+</span>
+
+
+</div>
+
+
+<p>
+The kernel sees actions, not appearances.
+</p>
+
+
+</section>
+
+
+
+
+
+<section class="section">
+
+
+<h2>LEVEL 8 — 2026 Intelligence View</h2>
+
+
+<div class="terminal">
+
+
+USER
+
+<br>
+↓
+
+<br>
+
+PROCESS
+
+<br>
+↓
+
+<br>
+
+FILES
+
+<br>
+↓
+
+<br>
+
+NETWORK
+
+<br>
+↓
+
+<br>
+
+MEMORY
+
+
+</div>
+
+
+<p>
+Modern research follows relationships, not only indicators.
+</p>
+
+
+</section>
+
+
+
+
+
+<section class="section">
+
+
+<h2>Final Thoughts</h2>
+
+
+<div class="quote">
+
+The system does not care what something looks like.
+<br>
+It cares what it becomes.
+
+</div>
+
+
+<p>
+The rabbit hole never ends.
+The deeper you investigate, the more layers appear.
+</p>
+
+
+</section>
+
+
+
+
+<footer>
+
+x0xr00t © 2026
+
+<br>
+
+Security Research • Linux Analysis • Reverse Engineering
+
+<br><br>
+
+Team sl0ppyr00t
+
+<br><br>
+
+<span class="cursor"></span>
+
+</footer>
+
+
+
+</div>
+
+
+<script>
+
+console.log(
+"[x0xr00t] Linux Strings Part 3 loaded"
+);
+
+
+document.querySelectorAll(".section")
+.forEach((item,index)=>{
+
+item.style.animationDelay =
+(index*0.1)+"s";
+
+});
+
+
+</script>
+
+
+</body>
+
+</html>
