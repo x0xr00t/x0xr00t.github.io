@@ -1,273 +1,359 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>x0xr00t: The Legend of Patrick Hoogeveen</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #000;
-            color: #fff;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background: #111;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-        }
-        h1, h2 {
-            text-align: center;
-            color: #1e90ff;
-        }
-        h2 {
-            margin-top: 40px;
-        }
-        p {
-            line-height: 1.6;
-            margin: 20px 0;
-        }
-        ul {
-            margin: 20px 0;
-            padding-left: 20px;
-        }
-        ul li {
-            margin-bottom: 10px;
-        }
-        .quote {
-            font-style: italic;
-            background-color: #333;
-            padding: 10px;
-            border-left: 4px solid #1e90ff;
-            margin: 20px 0;
-        }
-        img {
-            display: block;
-            margin: 20px auto;
-            max-width: 100%; /* Ensures the image scales well on mobile devices */
-            height: auto;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Patrick Hoogeveen, known as x0xr00t — security researcher focused on red teaming, vulnerability research, Windows security, and responsible disclosure.">
+  <meta name="theme-color" content="#080b10">
+  <title>x0xr00t | Patrick Hoogeveen — Security Researcher</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #080b10;
+      --panel: #101722;
+      --panel-alt: #0c121b;
+      --text: #e8edf5;
+      --muted: #a9b5c7;
+      --accent: #63a8ff;
+      --accent-soft: rgba(99, 168, 255, .14);
+      --border: #263449;
+      --max-width: 1080px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 16px/1.7 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    a { color: var(--accent); text-underline-offset: 3px; }
+    a:hover { color: #a8d0ff; }
+    .skip-link {
+      position: absolute; left: -9999px; top: 0;
+      background: var(--panel); padding: .75rem 1rem; z-index: 10;
+    }
+    .skip-link:focus { left: 1rem; top: 1rem; }
+    .wrap { width: min(var(--max-width), calc(100% - 2rem)); margin: 0 auto; }
+    header {
+      padding: 4.5rem 0 3rem;
+      border-bottom: 1px solid var(--border);
+      background: radial-gradient(ellipse at top, #14253c 0%, var(--bg) 68%);
+    }
+    .eyebrow {
+      color: var(--accent); text-transform: uppercase; letter-spacing: .16em;
+      font-size: .78rem; font-weight: 700;
+    }
+    h1 { margin: .5rem 0 .75rem; font-size: clamp(2.4rem, 7vw, 4.5rem); line-height: 1.08; letter-spacing: -.04em; }
+    h1 span { color: var(--accent); }
+    .subtitle { max-width: 760px; color: var(--muted); font-size: clamp(1.05rem, 2.5vw, 1.3rem); }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: .65rem; margin-top: 1.5rem; }
+    .chip {
+      border: 1px solid var(--border); background: rgba(16, 23, 34, .8);
+      color: #d7e4f5; border-radius: 999px; padding: .35rem .8rem; font-size: .88rem;
+    }
+    nav { border-bottom: 1px solid var(--border); background: #0a0f16; }
+    nav .wrap { display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; padding: .8rem 0; }
+    nav a { text-decoration: none; color: var(--muted); font-size: .92rem; }
+    nav a:hover { color: var(--text); }
+    main { padding: 2rem 0 4rem; }
+    section { padding: 1.8rem 0; scroll-margin-top: 1rem; }
+    h2 { font-size: clamp(1.45rem, 3vw, 2rem); margin: 0 0 1rem; letter-spacing: -.02em; }
+    h3 { margin: 0 0 .5rem; font-size: 1.08rem; }
+    p { margin: .7rem 0 1rem; }
+    .lead { color: #d5deeb; font-size: 1.08rem; max-width: 850px; }
+    .grid { display: grid; grid-template-columns: repeat( auto-fit, minmax(230px, 1fr)); gap: 1rem; }
+    .card {
+      border: 1px solid var(--border); background: var(--panel);
+      border-radius: 14px; padding: 1.2rem;
+    }
+    .card p, .muted { color: var(--muted); }
+    .media {
+      display: block; width: 100%; height: auto; max-height: 520px;
+      object-fit: contain; border: 1px solid var(--border);
+      border-radius: 12px; background: var(--panel-alt); margin: 1.25rem 0;
+    }
+    .media-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; align-items: start; }
+    .media-row .media { margin: 0; }
+    .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; }
+    table { border-collapse: collapse; width: 100%; min-width: 600px; background: var(--panel); }
+    th, td { text-align: left; padding: .85rem 1rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+    th { color: #dceaff; background: #162236; font-size: .9rem; }
+    tr:last-child td { border-bottom: 0; }
+    .callout { padding: 1rem 1.2rem; border-left: 3px solid var(--accent); background: var(--accent-soft); border-radius: 0 10px 10px 0; color: #dce7f6; }
+    .pill-list { display: flex; flex-wrap: wrap; gap: .55rem; padding: 0; list-style: none; }
+    .pill-list li { border: 1px solid var(--border); background: var(--panel); padding: .35rem .7rem; border-radius: 8px; color: #d5deeb; font-size: .92rem; }
+    main ul { padding-left: 1.25rem; color: var(--muted); }
+    footer { border-top: 1px solid var(--border); padding: 1.5rem 0 2.5rem; color: var(--muted); font-size: .9rem; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  </style>
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
 
-<div class="container">
-    <h1>The Legend of x0xr00t: Patrick Hoogeveen</h1>
-    <img src="images/461509529_1588797275068806_1615231335859361424_n.jpg" alt="Hacker Image" width="500">
-    <h2>A Journey into Cybersecurity</h2>
-    <p>In the fast-paced realm of cybersecurity, few individuals have made as significant an impact as Patrick Hoogeveen, known widely by his alias x0xr00t. Renowned for his exceptional skills in exploiting vulnerabilities within Windows operating systems, x0xr00t has earned a reputation that transcends borders and attracts attention from both peers and enthusiasts alike. This article explores his journey, groundbreaking techniques, ethical stance, and notable recognition, including his induction into the KPN Hall of Fame.</p>
+  <header>
+    <div class="wrap">
+      <div class="eyebrow">Independent Security Research · Red Teaming</div>
+      <h1>Patrick Hoogeveen <span>/ x0xr00t</span></h1>
+      <p class="subtitle">Red Team Specialist, security researcher, and tool developer with a long-running independent research history—from the s3ns31 era (2008–2017) to x0xr00t and Team Sl0ppyr00t.</p>
+      <div class="hero-meta" aria-label="Areas of focus">
+        <span class="chip">Vulnerability Research</span>
+        <span class="chip">Red Team Operations</span>
+        <span class="chip">Windows Security</span>
+        <span class="chip">Responsible Disclosure</span>
+        <span class="chip">Open-Source Tooling</span>
+        <span class="chip">Ruby & Security Automation</span>
+        <span class="chip">Previously s3ns31 · 2008–2017</span>
+      </div>
+    </div>
+  </header>
 
-    <!-- Example of adding an image here -->
-    <img src="images/x0.jpg" alt="Hacker Image" width="500">
-    
-    <p>Patrick Hoogeveen’s journey into the world of cybersecurity reflects a blend of innate curiosity, technical acumen, and a passion for ethical practices. He began his foray into this complex field with a keen interest in understanding how systems work and how they can be exploited. This drive for knowledge led him to develop advanced skills in penetration testing and vulnerability exploitation.</p>
-    <img src="images/halloween-x0.jpg" alt="Hacker Image" width="500">     
-    
-        <!-- Programming Languages and Tools Section -->
-    <h2>Programming Languages and Tools</h2>
-    <p>x0xr00t is proficient in a wide array of programming languages, each tailored to different aspects of cybersecurity. Below is an overview of his expertise in various languages and the kinds of tools he creates for each.</p>
+  <nav aria-label="Main navigation">
+    <div class="wrap">
+      <a href="#profile">Profile</a>
+      <a href="#history">Alias History</a>
+      <a href="#focus">Specializations</a>
+      <a href="#engineering">Engineering</a>
+      <a href="#projects">Projects</a>
+      <a href="#community">Research & Community</a>
+      <a href="#recognition">Recognition</a>
+      <a href="#experience">Experience</a>
+      <a href="#approach">Approach</a>
+    </div>
+  </nav>
 
-    <table class="language-table">
-        <thead>
-            <tr>
-                <th>Language</th>
-                <th>Primary Focus</th>
-                <th>Example Tools</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>C</td>
-                <td>Low-level exploits, OS internals</td>
-                <td>Rootkits, buffer overflows, payloads</td>
-            </tr>
-            <tr>
-                <td>C++</td>
-                <td>Complex tools, exploit frameworks</td>
-                <td>Malware loaders, UAC bypasses</td>
-            </tr>
-            <tr>
-                <td>PowerShell</td>
-                <td>Windows automation, post-exploitation</td>
-                <td>Credential dumping, persistence scripts</td>
-            </tr>
-            <tr>
-                <td>Python</td>
-                <td>Scripting, automation, networking</td>
-                <td>Scanners, fuzzers, brute-forcing tools</td>
-            </tr>
-            <tr>
-                <td>Ruby</td>
-                <td>Metasploit modules, custom exploits</td>
-                <td>Metasploit payloads, vulnerability scripts</td>
-            </tr>
-            <tr>
-                <td>Perl</td>
-                <td>Legacy scripting, log parsing</td>
-                <td>Log analyzers, network service exploits</td>
-            </tr>
-            <tr>
-                <td>Go (Golang)</td>
-                <td>High-performance tools, concurrency</td>
-                <td>Scanners, reconnaissance tools</td>
-            </tr>
-            <tr>
-                <td>Rust</td>
-                <td>Safe system tools, secure code</td>
-                <td>Secure exploit loaders, cryptographic tools</td>
-            </tr>
-            <tr>
-                <td>PHP</td>
-                <td>Web exploitation, backend scripting</td>
-                <td>Webshells, LFI/RFI scripts</td>
-            </tr>
-            <tr>
-                <td>Java</td>
-                <td>Enterprise exploits, Android tools</td>
-                <td>Java applet exploits, Android analysis tools</td>
-            </tr>
-            <tr>
-                <td>HTML/CSS</td>
-                <td>Phishing, UI exploitation</td>
-                <td>Phishing pages, XSS payloads</td>
-            </tr>
-            <tr>
-                <td>JavaScript</td>
-                <td>Web attack vectors, client-side exploits</td>
-                <td>XSS scripts, CSRF attacks, malicious extensions</td>
-            </tr>
-        </tbody>
-    </table>    
-   
-    <h2>Journey to the Top 50 on HackTheBox (HTB)</h2>
-    <img src="images/top50htb.jpg" alt="Hacker Image" width="500">
-    <p>The journey to reaching the <strong>Top 50</strong> on HackTheBox was an intense adventure for me, x0xr00t. It wasn't just about solving machines; it was about persistence, dedication, and growth in the face of challenges.</p>
+  <main id="main" class="wrap">
+    <section id="profile">
+      <h2>Professional Profile</h2>
+      <p class="lead">Known in the security community as <strong>x0xr00t</strong>, Patrick Hoogeveen works across offensive security, vulnerability research, and security-tool development. His work centers on understanding how systems fail, validating security assumptions, and turning technical findings into actionable improvements.</p>
+      <p>Patrick Hoogeveen is an independent security researcher and Red Team Specialist known professionally as <strong>x0xr00t</strong>. His work spans authorized red-team operations, web and network penetration testing, Windows security research, vulnerability analysis, privilege-boundary assessment, security automation, and open-source tool engineering. He approaches security as a practical discipline: understand the implementation, test the security assumptions, document evidence, and turn findings into improvements that can be verified.</p>
+      <p>His research interests include Windows internals and defensive controls, privilege escalation, application and network attack surfaces, vulnerability reproduction, and the engineering of tools for repeatable assessment and defensive validation. Alongside hands-on research, he shares technical knowledge through documentation, research writing, and projects published under the <strong>x0xr00t</strong> and <strong>Team Sl0ppyr00t</strong> names.</p>
+      <div class="media-row">
+        <img class="media" src="images/461509529_1588797275068806_1615231335859361424_n.jpg" alt="x0xr00t profile image" loading="lazy">
+        <img class="media" src="images/x0.jpg" alt="x0xr00t cybersecurity image" loading="lazy">
+      </div>
+    </section>
 
-    <p>When I started, breaking into the <strong>Top 100</strong> seemed like a distant dream. I found myself stuck around rank 200, constantly bumping into walls—figurative and literal exploits that just wouldn’t crack. The platform wasn’t forgiving. HackTheBox has more than a <strong>million registered hackers</strong> worldwide, and of those, around <strong>200,000 to 500,000 are actively competing</strong> on a regular basis. The competition is fierce. Every victory is hard-earned, and every defeat is a lesson to learn from.</p>
+    <section id="history">
+      <h2>Research Identity & Alias History</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>s3ns31 · 2008–2017</h3>
+          <p><strong>Previously known as s3ns31.</strong> This period represents the earlier chapter of Patrick Hoogeveen's technical identity and independent security interests. The alias predates the x0xr00t identity and is included here to connect the historical name with the current professional profile.</p>
+        </article>
+        <article class="card">
+          <h3>x0xr00t · Current identity</h3>
+          <p>Under the x0xr00t name, Patrick focuses on red-team research, security tooling, Windows security analysis, responsible disclosure, and practical engineering. Team Sl0ppyr00t is the project and community label associated with a number of his tools.</p>
+        </article>
+      </div>
+      <p class="muted">Historical alias dates are presented as supplied by the profile owner.</p>
+    </section>
 
-    <p>I pushed through, driven by the desire to prove myself among the best in the world. The closer I got to the <strong>Top 100</strong>, the more the stakes felt real. Every box cracked felt like a small victory, a step closer to that elusive goal. When I finally landed in the <strong>Top 100</strong>, it was an incredible achievement—but I wasn’t done yet. My sights were set higher: <strong>Top 50</strong>.</p>
+    <section id="focus">
+      <h2>Core Specializations</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>Red Teaming & Penetration Testing</h3>
+          <p>Assessing attack surfaces, validating security controls, and identifying exploitable weaknesses within authorized scopes.</p>
+        </article>
+        <article class="card">
+          <h3>Windows Security Research</h3>
+          <p>Investigating Windows internals, privilege boundaries, application behavior, and defensive-control effectiveness.</p>
+        </article>
+        <article class="card">
+          <h3>Vulnerability Research</h3>
+          <p>Reproducing security issues, analyzing root causes, developing proof-of-concept tests, and documenting impact and mitigations.</p>
+        </article>
+        <article class="card">
+          <h3>Security Automation</h3>
+          <p>Building practical tools for reconnaissance, validation, triage, and repeatable assessment workflows.</p>
+        </article>
+        <article class="card">
+          <h3>Defensive Validation</h3>
+          <p>Evaluating detection and hardening measures to help teams improve coverage, reduce blind spots, and verify remediation.</p>
+        </article>
+        <article class="card">
+          <h3>Technical Communication</h3>
+          <p>Sharing findings and lessons learned through research notes, articles, documentation, and open-source repositories.</p>
+        </article>
+      </div>
+      <img class="media" src="images/halloween-x0.jpg" alt="Cybersecurity-themed x0xr00t image" loading="lazy">
+    </section>
 
-    <p>It took time, effort, and sharpening my skills through every challenge I faced, but I finally made it. Being in the <strong>Top 50 hackers globally</strong> on HTB was validation that all the struggles, the late nights, and the constant pushing of boundaries had been worth it.</p>
+    <section id="engineering">
+      <h2>Engineering & Tooling</h2>
+      <p>Tool selection depends on the problem being investigated. The following languages and technologies are relevant to different parts of security research and engineering; specific experience should be assessed against the requirements of each project.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Technology</th><th>Common applications</th></tr></thead>
+          <tbody>
+            <tr><td>Bash / Shell</td><td>Linux administration, repeatable workflows, host triage, and operational automation.</td></tr>
+            <tr><td>Python</td><td>Assessment automation, scanners, data processing, test harnesses, and security tooling.</td></tr>
+            <tr><td>Ruby</td><td>Security automation, custom testing scripts, and modules for established security frameworks such as Metasploit.</td></tr>
+            <tr><td>PowerShell</td><td>Windows administration, configuration review, system triage, and authorized security validation.</td></tr>
+            <tr><td>Go</td><td>Portable command-line utilities, concurrent network tools, and self-contained assessment binaries.</td></tr>
+            <tr><td>C / C++</td><td>System-level analysis, memory-safety research, operating-system interfaces, and performance-sensitive utilities.</td></tr>
+            <tr><td>Perl</td><td>Automation, text processing, and maintenance of established security scripts.</td></tr>
+            <tr><td>JavaScript / PHP / Java</td><td>Web and application security analysis, backend review, and platform-specific tooling.</td></tr>
+            <tr><td>Rust / C# / Assembly</td><td>Systems programming, Windows-focused tooling, and low-level analysis where appropriate.</td></tr>
+            <tr><td>HTML / CSS</td><td>Web interfaces, documentation, reporting views, and presentation of technical findings.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="muted">Examples describe typical uses of each technology, not a claim that every listed technique or tool is part of a publicly released project.</p>
+    </section>
 
-    <p>HTB’s leaderboard isn't just numbers—it’s a reflection of the community of brilliant minds competing and collaborating on one of the hardest platforms. Reaching that rank feels like standing on a mountain peak, looking back at the path traveled.</p>
+    <section id="experience">
+      <h2>Professional Experience & Development</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>Red Team Operator & Security Researcher</h3>
+          <p class="muted">Synack Red Team · July 2021–present · Part-time</p>
+          <p>Authorized security testing and research across scoped customer environments, with an emphasis on careful validation, evidence-led reporting, and actionable findings.</p>
+        </article>
+        <article class="card">
+          <h3>Security Researcher & Technical Writer</h3>
+          <p class="muted">SecJuice · July 2021–present · Part-time</p>
+          <p>Security research, technical articles, and knowledge sharing focused on practical offensive security and vulnerability analysis.</p>
+        </article>
+        <article class="card">
+          <h3>Independent Security Consultant</h3>
+          <p class="muted">2017–2020</p>
+          <p>Independent security and penetration-testing work, building on earlier self-employed technical and infrastructure experience.</p>
+        </article>
+        <article class="card">
+          <h3>Infrastructure & Hosting</h3>
+          <p class="muted">2010–2016</p>
+          <p>Hands-on work with hosting environments, server racks, VMware ESXi, databases, content-management systems, and cloud storage configurations.</p>
+        </article>
+      </div>
+      <h3 style="margin-top:1.5rem">Education & Professional Development</h3>
+      <ul>
+        <li>Noorderpoort — ICT Administration, MBO, 2006–2009.</li>
+        <li>CEH training/certification pathway — 2012; CEH v10 — 2019.</li>
+        <li>Hack The Box SRT Track — 2021; UEH — 2022.</li>
+        <li>Continued independent study, practical labs, security research, and professional development.</li>
+      </ul>
+      <p class="muted">Dates and qualifications are reproduced from the profile owner's supplied background and should be aligned with current CV documentation before formal submission.</p>
+    </section>
 
-    <h2>Mastering the Art of Exploitation</h2>
-    <p>One of the hallmarks of x0xr00t's career is his expertise in bypassing critical security measures in Windows. He is particularly noted for developing sophisticated techniques that exploit the User Account Control (UAC) feature and Windows Defender. His ability to manipulate file extensions and exploit vulnerabilities has positioned him at the forefront of the cybersecurity community.</p>
-    
-    <h2>Hacking Skills & Techniques</h2>
-    <p>Patrick Hoogeveen, also known as x0xr00t, is known for his innovative and high-level hacking techniques. Here’s a breakdown of his skills and the methods he uses to bypass critical security barriers, create sophisticated 0-day exploits, and develop advanced malware.</p>
+    <section id="research">
+      <h2>Research, Labs & Continuous Improvement</h2>
+      <p>Hands-on platforms such as Hack The Box provide a structured environment for developing practical skills in enumeration, exploitation, privilege-boundary analysis, and problem solving. Competitive rankings can change over time, so any leaderboard position should be presented with a date and supporting profile evidence.</p>
+      <div class="callout">Security research is most valuable when findings are reproducible, impact is clearly explained, and remediation guidance is practical.</div>
+      <p>Research into Windows security and defensive controls includes examining how implementation details can affect security boundaries and how those behaviors can be tested responsibly. Public write-ups and proof-of-concept material should include scope, affected versions, prerequisites, observed behavior, and mitigation notes wherever possible.</p>
+      <img class="media" src="images/top50htb.jpg" alt="Hack The Box ranking or achievement image" loading="lazy">
+    </section>
 
-    <!-- Table for Hacking Skills, Bypass Techniques, and Malware -->
-    <table class="skills-table">
-        <thead>
-            <tr>
-                <th>Skill Category</th>
-                <th>Description</th>
-                <th>Techniques/Tools</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>System Bypasses</td>
-                <td>Advanced techniques to bypass security features on Windows and other OS environments.</td>
-                <td>User Account Control (UAC) bypasses, Windows Defender bypasses, file extension manipulations.</td>
-            </tr>
-            <tr>
-                <td>0-Day Exploits</td>
-                <td>Exploits for unpatched vulnerabilities in software, often leading to high-impact attacks.</td>
-                <td>Zero-day reconnaissance, weaponized payloads, custom-crafted exploits.</td>
-            </tr>
-            <tr>
-                <td>Malware Development</td>
-                <td>Development of custom malware designed to evade detection and exploit system weaknesses.</td>
-                <td>Rootkits, keyloggers, polymorphic malware, sandbox evasion tactics.</td>
-            </tr>
-            <tr>
-                <td>Advanced Exploitation</td>
-                <td>Techniques to leverage system flaws for control and privilege escalation.</td>
-                <td>Memory corruption, buffer overflow techniques, remote code execution.</td>
-            </tr>
-            <tr>
-                <td>Social Engineering</td>
-                <td>Strategies to manipulate individuals into divulging sensitive information.</td>
-                <td>Phishing, spear phishing, psychological manipulation.</td>
-            </tr>
-        </tbody>
-    </table>
+    <section id="community">
+      <h2>Research & Community Contributions</h2>
+      <p>Alongside practical testing, x0xr00t shares technical knowledge through articles and open-source development. Clear documentation, repeatable test cases, careful handling of uncertainty, and explicit limitations help make security tools useful to both researchers and defenders.</p>
+      <p>Community work includes technical writing associated with SecJuice and publicly available projects on GitHub. For current projects, releases, and source code, refer to the corresponding official profiles.</p>
+      <ul class="pill-list">
+        <li>Security research</li>
+        <li>Open-source development</li>
+        <li>Technical documentation</li>
+        <li>Responsible disclosure</li>
+        <li>Peer learning</li>
+      </ul>
+    </section>
 
-    <h2>Notable Techniques and Security Bypasses</h2>
-    <p>The following table showcases specific techniques used by x0xr00t to outmaneuver advanced security protocols and execute high-level exploits.</p>
+    <section id="projects">
+      <h2>Selected Open-Source Projects</h2>
+      <p>Public repositories focus on security assessment, Windows security research, scanning, defensive validation, and automation. Each project should be evaluated using its own documentation, release notes, and stated limitations.</p>
+      <div class="grid">
+        <article class="card"><h3><a href="https://github.com/x0xr00t/Automated-MUlti-UAC-Bypass">Automated-MUlti-UAC-Bypass</a></h3><p>Windows UAC research and testing utilities.</p></article>
+        <article class="card"><h3><a href="https://github.com/x0xr00t/sl0ppy-PrivescTaskCreator">sl0ppy-PrivescTaskCreator</a></h3><p>Privilege-escalation research and task-related assessment tooling.</p></article>
+        <article class="card"><h3><a href="https://github.com/x0xr00t/sl0ppy-oppg">sl0ppy-oppg</a></h3><p>Open-source security tooling and research utilities.</p></article>
+        <article class="card"><h3><a href="https://github.com/x0xr00t/SilentReject-OmniPollute">SilentReject-OmniPollute</a></h3><p>Security research project and proof-of-concept tooling.</p></article>
+        <article class="card"><h3><a href="https://github.com/x0xr00t/KPN-FilePathTraversal-POC-2023">KPN-FilePathTraversal-POC-2023</a></h3><p>Proof-of-concept material associated with a file-path traversal research report.</p></article>
+        <article class="card"><h3><a href="https://github.com/x0xr00t/sl0ppy-SVGScan">sl0ppy-SVGScan</a></h3><p>SVG-focused scanning and analysis.</p></article>
+        <article class="card"><h3><a href="https://github.com/x0xr00t/sl0ppy-ALPI">sl0ppy-ALPI</a></h3><p>Security tooling and assessment automation.</p></article>
+        <article class="card"><h3><a href="https://github.com/x0xr00t/sl0ppy-LNKHunter">sl0ppy-LNKHunter</a></h3><p>Windows shortcut (LNK) inspection and research.</p></article>
+        <article class="card"><h3><a href="https://github.com/x0xr00t/sl0ppy-defender-evasion">sl0ppy-defender-evasion</a></h3><p>Windows defensive-control research and validation.</p></article>
+        <article class="card"><h3><a href="https://github.com/x0xr00t/sl0ppy-goshelly">sl0ppy-goshelly</a></h3><p>Go-based security tooling.</p></article>
+        <article class="card"><h3><a href="https://github.com/x0xr00t/sl0ppy-php2shellscan">sl0ppy-php2shellscan</a></h3><p>PHP-related security scanning and testing.</p></article>
+        <article class="card"><h3><a href="https://github.com/x0xr00t/sl0ppy-riftscan-CVE-2026-42945">sl0ppy-riftscan-CVE-2026-42945</a></h3><p>CVE-focused scanning and vulnerability research.</p></article>
+        <article class="card"><h3><a href="https://github.com/x0xr00t/sl0ppy-UEFIScan">sl0ppy-UEFIScan</a></h3><p>Read-only UEFI and firmware assessment.</p></article>
+        <article class="card"><h3><a href="https://github.com/x0xr00t/sl0ppy-SuriDash">sl0ppy-SuriDash</a></h3><p>Suricata IDS/IPS monitoring and dashboard tooling.</p></article>
+      </div>
+    </section>
 
-    <!-- Table for Specific Techniques and Bypasses -->
-    <table class="bypass-table">
-        <thead>
-            <tr>
-                <th>Technique</th>
-                <th>Purpose</th>
-                <th>Examples of Exploitation</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>User Account Control (UAC) Bypass</td>
-                <td>Gain elevated privileges on Windows systems without alerting the user.</td>
-                <td>Fake system dialogs, registry alterations, scripting.</td>
-            </tr>
-            <tr>
-                <td>Windows Defender Bypass</td>
-                <td>Evade Microsoft's built-in antivirus and anti-malware protections.</td>
-                <td>Encoded payloads, obfuscation techniques, script-based evasion.</td>
-            </tr>
-            <tr>
-                <td>PIF File Exploitation</td>
-                <td>Use of PIF files for executing scripts unnoticed by security software.</td>
-                <td>Backdoor installation, silent privilege escalation.</td>
-            </tr>
-            <tr>
-                <td>File Extension Manipulation</td>
-                <td>Exploit file handling mechanisms to trigger unintended behaviors.</td>
-                <td>Double extension files (e.g., .jpg.exe), misleading icons.</td>
-            </tr>
-            <tr>
-                <td>Sandbox Evasion</td>
-                <td>Avoid detection when analyzed within a sandbox environment.</td>
-                <td>Timing delays, hardware checks, behavior analysis evasion.</td>
-            </tr>
-        </tbody>
-    </table>
+    <section id="recognition">
+      <h2>Recognition, Rankings & Hall of Fame</h2>
+      <p class="lead">Recognition and ranking milestones associated with Patrick Hoogeveen's security research and community participation.</p>
+      <div class="grid">
+        <article class="card">
+          <h3>KPN Hall of Fame</h3>
+          <p>Hall of Fame recognition connected to vulnerability research and responsible reporting to KPN, including a KPN Hall of Fame 2023 reference.</p>
+        </article>
+        <article class="card">
+          <h3>Microsoft Security Response Center (MSRC)</h3>
+          <p>MSRC researcher recognition, including an acknowledgement associated with Windows User Account Control (UAC) bypass research.</p>
+        </article>
+        <article class="card">
+          <h3>Hack The Box · Top 50</h3>
+          <p>Reported historical Top 50 global ranking, following progress from around rank 200 into the Top 100 and then the Top 50. This is a historical achievement, not a claim about the current live leaderboard.</p>
+        </article>
+        <article class="card">
+          <h3>GitHub · Top 1%</h3>
+          <p>Reported placement among the top 1% of repositories. The exact metric, category, period, and supporting public evidence should accompany this claim wherever possible.</p>
+        </article>
+        <article class="card">
+          <h3>HackerDNA · Top 8</h3>
+          <p>Reported Top 8 placement on HackerDNA.</p>
+        </article>
+        <article class="card">
+          <h3>HackerDNA · Netherlands Top 5</h3>
+          <p>Reported Top 5 ranking in the Netherlands on HackerDNA.</p>
+        </article>
+        <article class="card">
+          <h3>Additional community recognition</h3>
+          <p>Other supplied milestones include HTB Hall of Fame 2020, Synack Red Team Honored Researcher recognition (2022–2024), and KPN security acknowledgements.</p>
+        </article>
+      </div>
+      <img class="media" src="images/Screenshot 2024-10-19 at 14-38-41 Hall of Fame KPN.png" alt="KPN Hall of Fame evidence screenshot" loading="lazy">
+      <p class="muted">Rankings may change and some platforms use different scoring windows. For public use, add direct profile links, dates, screenshots, or official acknowledgements for each item. The claims above reflect information supplied for this biography and have not been independently verified in this document.</p>
+    </section>
 
+    <section id="approach">
+      <h2>Research Principles</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>Authorization & Scope</h3>
+          <p>Testing should be performed with explicit permission and within the agreed scope, with care taken to minimize disruption and unintended impact.</p>
+        </article>
+        <article class="card">
+          <h3>Evidence First</h3>
+          <p>Findings should be supported by reproducible observations, clear confidence levels, and a distinction between confirmed issues and hypotheses.</p>
+        </article>
+        <article class="card">
+          <h3>Responsible Reporting</h3>
+          <p>When a vulnerability affects a third party, coordinate disclosure appropriately and provide enough technical detail to support remediation.</p>
+        </article>
+        <article class="card">
+          <h3>Defensive Outcomes</h3>
+          <p>The objective is to help organizations understand risk, strengthen controls, and verify that fixes address the underlying cause.</p>
+        </article>
+      </div>
+    </section>
 
-    <h2>PIF File Exploitation</h2>
-    <p>A prime example of his innovative approach is his work with PIF files, which can execute scripts while remaining undetected by security software. By leveraging this technique, x0xr00t has demonstrated how attackers can bypass security features, presenting a significant threat to unprotected systems. His findings are not just theoretical; they have practical implications that help inform security protocols and practices across various platforms.</p>
+    <section id="closing">
+      <h2>About x0xr00t</h2>
+      <p class="lead">Patrick Hoogeveen — previously known as s3ns31 (2008–2017), now known as x0xr00t — brings a hands-on approach to red-team assessment, vulnerability research, Windows security analysis, and open-source tool development. Under Team Sl0ppyr00t, he aims to make research reproducible, communicate risk clearly, and help turn technical findings into measurable security improvements.</p>
+      <div class="media-row">
+        <img class="media" src="images/452517397_1543251776290023_4655048711655698232_n.jpg" alt="x0xr00t image" loading="lazy">
+        <img class="media" src="images/172916369540795888.png" alt="x0xr00t image" loading="lazy">
+      </div>
+    </section>
+  </main>
 
-    <h2>Ethical Hacking and Responsible Disclosure</h2>
-    <p>What sets x0xr00t apart from many in the hacking community is his commitment to ethical hacking. He adheres to principles that prioritize the responsible disclosure of vulnerabilities. By reporting his findings to organizations such as the Microsoft Security Response Center (MSRC), he plays a crucial role in enhancing security measures and preventing potential exploitation by malicious actors.</p>
-    
-    <h2>Advocacy for Ethical Practices</h2>
-    <p>His actions have fostered discussions around the importance of ethical hacking within the cybersecurity community. As more hackers embrace responsible disclosure, the landscape of cybersecurity becomes increasingly collaborative, ultimately benefiting end users.</p>
-
-    <h2>Recognition and Hall of Fame KPN</h2>
-    <p>The recognition of x0xr00t's contributions culminated in his induction into the Hall of Fame by KPN, one of the leading telecommunications companies in the Netherlands. This honor acknowledges individuals who have made significant contributions to enhancing internet security. Being part of this prestigious group not only highlights his skills but also underscores his commitment to improving the cybersecurity landscape.</p>
-    <img src="images/Screenshot 2024-10-19 at 14-38-41 Hall of Fame KPN.png" alt="Hacker Image" width="500"> 
-    
-    <h2>Impact on the Cybersecurity Community</h2>
-    <p>Induction into the KPN Hall of Fame serves as a testament to his impact and the respect he commands among industry leaders. It also emphasizes the importance of acknowledging those who contribute to making the internet a safer environment.</p>
-
-    <h2>Engaging with the Community</h2>
-    <p>Beyond technical expertise, x0xr00t is deeply committed to community engagement. He actively shares his knowledge through articles, tutorials, and open-source projects on platforms like GitHub. His ability to articulate complex concepts in an accessible manner makes him a valuable resource for both novices and seasoned professionals in the field.</p>
-
-    <h2>Mentorship and Education</h2>
-    <p>His contributions are not just limited to technical insights; x0xr00t has taken on a mentorship role, guiding newcomers in the field and encouraging ethical practices. This commitment to education fosters a culture of collaboration and learning, essential in an ever-evolving field.</p>
-
-    <h2>Conclusion</h2>
-    <p>The legend of x0xr00t, Patrick Hoogeveen, is characterized by a unique amalgamation of technical skill, ethical responsibility, and community engagement. His pioneering techniques, commitment to responsible disclosure, and influence on the cybersecurity landscape illustrate why he is often regarded as a "legend" within the community. As he continues to contribute to this vital field, his story serves as an inspiration for aspiring ethical hackers and cybersecurity professionals worldwide.</p>
-    <img src="images/452517397_1543251776290023_4655048711655698232_n.jpg" alt="Hacker Image" width="500"> 
-    <img src="images/172916369540795888.png" alt="Hacker Image" width="500"> 
-    <p>For more insights into x0xr00t's work and techniques, you can explore articles on platforms like Secjuice and other cybersecurity blogs that highlight his contributions and expertise.</p>
-</div>
-
+  <footer>
+    <div class="wrap">
+      <p><strong>Patrick Hoogeveen | x0xr00t</strong></p>
+      <p>Patrick Hoogeveen · s3ns31 (2008–2017) → x0xr00t · Red Teaming · Security Research · Team Sl0ppyr00t</p>
+      <p class="muted">Keep project links, credentials, rankings, and recognition current and verifiable before publication.</p>
+    </div>
+  </footer>
 </body>
 </html>
