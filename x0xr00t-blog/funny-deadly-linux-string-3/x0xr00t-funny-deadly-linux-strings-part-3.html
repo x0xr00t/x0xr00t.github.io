@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Bash, Zsh, parameter expansion, XOR encoding, command substitution and practical Linux shell techniques.">
+  <meta name="author" content="x0xr00t">
+  <meta name="theme-color" content="#090d12">
+  <title>Funny Deadly Linux Strings — Part Three: Parameter Expansion | x0xr00t</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #090d12;
+      --panel: #101820;
+      --panel-2: #0c131a;
+      --text: #d9e2e8;
+      --muted: #91a0aa;
+      --accent: #00ff66;
+      --cyan: #42d9ff;
+      --border: #24333d;
+      --code: #070b0f;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: radial-gradient(ellipse at top, #12202a 0, var(--bg) 52rem);
+      color: var(--text);
+      font: 16px/1.75 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    a { color: var(--cyan); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+    a:hover { color: var(--accent); }
+    .shell { width: min(920px, calc(100% - 36px)); margin: 0 auto; }
+    .topline { border-bottom: 1px solid var(--border); }
+    .topline-inner {
+      min-height: 68px; display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; flex-wrap: wrap;
+    }
+    .brand { color: var(--accent); font-weight: 800; letter-spacing: .08em; text-decoration: none; }
+    .brand span { color: var(--muted); font-weight: 500; letter-spacing: 0; }
+    .eyebrow { color: var(--accent); font: 700 .76rem/1.4 ui-monospace, monospace; letter-spacing: .13em; text-transform: uppercase; }
+    header.article-head { padding: clamp(42px, 8vw, 82px) 0 34px; }
+    h1 {
+      margin: 12px 0 18px; max-width: 850px; color: #f3f7f9;
+      font-size: clamp(2.2rem, 6vw, 4.4rem); line-height: 1.08; letter-spacing: -.045em;
+    }
+    .subtitle { max-width: 760px; color: #b6c5ce; font-size: clamp(1.05rem, 2.2vw, 1.25rem); }
+    .byline { display: flex; gap: 12px 22px; flex-wrap: wrap; margin-top: 25px; color: var(--muted); font-size: .9rem; }
+    .byline strong { color: var(--text); }
+    main {
+      margin-bottom: 70px; padding: clamp(22px, 5vw, 52px);
+      background: color-mix(in srgb, var(--panel) 94%, transparent);
+      border: 1px solid var(--border); border-radius: 16px;
+      box-shadow: 0 24px 80px #0005;
+    }
+    .content { overflow-wrap: anywhere; }
+    .content h2 { margin: 2.2em 0 .65em; color: #f2f7f9; font-size: clamp(1.55rem, 3.4vw, 2rem); line-height: 1.25; }
+    .content h3 { margin: 1.8em 0 .6em; color: var(--cyan); font-size: 1.22rem; line-height: 1.35; }
+    .content p { margin: 1em 0; }
+    .content strong { color: #f5fafc; }
+    .content hr { border: 0; border-top: 1px solid var(--border); margin: 2.5em 0; }
+    .content ul, .content ol { padding-left: 1.5rem; }
+    .content li { margin: .35em 0; }
+    .content code {
+      padding: .12em .38em; border: 1px solid #293943; border-radius: 5px;
+      background: #0a1117; color: #9fffc1; font: .9em ui-monospace, SFMono-Regular, Consolas, monospace;
+    }
+    .content pre {
+      max-width: 100%; overflow-x: auto; margin: 1.2em 0 1.5em; padding: 18px 20px;
+      border: 1px solid #263943; border-left: 3px solid var(--accent); border-radius: 9px;
+      background: var(--code); color: #d8e6eb; line-height: 1.6;
+      tab-size: 4; white-space: pre;
+    }
+    .content pre code { padding: 0; border: 0; background: transparent; color: inherit; font-size: .9rem; }
+    .content table { display: block; width: 100%; overflow-x: auto; border-collapse: collapse; }
+    .content th, .content td { padding: 10px 12px; border: 1px solid var(--border); text-align: left; }
+    .content th { background: #14232c; color: var(--accent); }
+    .content blockquote { margin: 1.5em 0; padding: 4px 18px; border-left: 3px solid var(--cyan); color: #b9c8d0; }
+    footer { padding: 0 0 38px; color: var(--muted); text-align: center; font-size: .85rem; }
+    footer strong { color: var(--accent); }
+    @media (max-width: 600px) {
+      .shell { width: min(100% - 22px, 920px); }
+      main { padding: 20px 16px; border-radius: 11px; }
+      .content pre { padding: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topline">
+    <div class="shell topline-inner">
+      <a class="brand" href="#top">x0xr00t <span>/ sl0ppyRoot</span></a>
+      <span class="eyebrow">Linux · Shell Research · Part 03</span>
+    </div>
+  </div>
+
+  <div class="shell" id="top">
+    <header class="article-head">
+      <div class="eyebrow">Funny Deadly Linux Strings</div>
+      <h1>Part Three: Parameter Expansion War Crimes</h1>
+      <p class="subtitle">Bash, Zsh, XOR Encoding, Command Substitution &amp; Other Reasons Your Terminal Needs Therapy</p>
+      <div class="byline">
+        <span>By <strong>x0xr00t</strong></span>
+        <span>Series: Funny Deadly Linux Strings — Part 3</span>
+        <span>Updated: November 7, 2026</span>
+      </div>
+    </header>
+
+    <main>
+      <article class="content">
+        <section class="gh-content gh-canvas">
+<p></p><h3 id="bash-zsh-xor-encoding-command-substitution-other-reasons-your-terminal-needs-therapy">Bash, Zsh, XOR Encoding, Command Substitution &amp; Other Reasons Your Terminal Needs Therapy</h3><p><strong>Author:</strong> x0xr00t<br/><br/><strong>Series:</strong> Funny Deadly Linux Strings – Part 3<br/><strong>Platform:</strong> Kali Linux 2026, Debian, Ubuntu, Fedora, Arch Linux and other modern Linux distributions.</p><hr/><h2 id="previously-on-terminal-abuse">Previously, on Terminal Abuse...</h2><p>Well, well, well... look who's back.</p><p>If you've survived Parts One and Two of my <em>Funny Deadly Linux Strings</em> series, congratulations. Your terminal is probably still talking to you, your scripts have trust issues, and somewhere a Bash interpreter is quietly reconsidering its career.</p><p>For Part Three, we're taking things a little further.</p><p>This time we're not just throwing random strings around and hoping the shell understands our intentions.</p><p>Nope.</p><p>We're getting our hands dirty with parameter expansion, indirect variables, substring manipulation, XOR encoding, decoding, nested command substitution and one-liners that look like they were written during a caffeine-induced incident response operation.</p><p>And because apparently making commands readable is overrated, we'll also look at how to decode a harmless command and pass it directly into execution using <code>$()</code>.</p><p>Yes. The shell can do that.</p><p>No, that doesn't mean you should start executing every mysterious string you find on the internet.</p><p>Let's get our hands dirty.</p><p><strong>A quick compatibility note:</strong> These examples primarily target Bash 5.x. Kali Linux 2026 and other modern Linux distributions can run several different shells. Shell compatibility depends on the interpreter, not the Linux kernel. Bash-specific examples are not automatically compatible with <code>/bin/sh</code>, Dash, Zsh or Fish.</p><hr/><h2 id="01-parameter-expansion-%E2%80%93-sed-has-left-the-building">01. Parameter Expansion – Sed Has Left the Building</h2><p>Let's start with something innocent.</p><pre><code>#!/usr/bin/env bash
+
+name="x0xr00t"
+host="kali-2026"
+path="/usr/local/bin/sl0ppy"
+
+printf '%s\n' "${name}"
+printf '%s\n' "${host}"
+printf '%s\n' "${path}"</code></pre><p>Nothing special, right?</p><p>Now let's start removing things without calling external utilities.</p><pre><code>file="/var/log/auth.log"
+
+echo "${file##*/}"
+echo "${file%/*}"</code></pre><p><strong>Output:</strong></p><pre><code>auth.log
+/var/log</code></pre><p>Congratulations. You've just replaced a couple of unnecessary subprocesses with Bash doing what Bash was already capable of doing.</p><p>The operators:</p><pre><code>${VAR#pattern}     # Remove shortest matching prefix
+${VAR##pattern}    # Remove longest matching prefix
+${VAR%pattern}     # Remove shortest matching suffix
+${VAR%%pattern}    # Remove longest matching suffix</code></pre><p>And because apparently we can't leave things alone:</p><pre><code>URL="https://example.org:8443/api/v1/users?id=42"
+
+HOST="${URL#*://}"
+HOST="${HOST%%/*}"
+HOST="${HOST%%:*}"
+
+printf '%s\n' "$HOST"</code></pre><p><strong>Output:</strong></p><pre><code>example.org</code></pre><p>No <code>cut</code>. No <code>awk</code>. No <code>sed</code>.</p><p>Just parameter expansion doing the dirty work.</p><hr/><h2 id="02-string-replacement-%E2%80%93-the-lazy-operators-toolkit">02. String Replacement – The Lazy Operator's Toolkit</h2><pre><code>string="linux-linux-linux"
+
+echo "${string/linux/KALI}"
+echo "${string//linux/KALI}"</code></pre><p><strong>Output:</strong></p><pre><code>KALI-linux-linux
+KALI-KALI-KALI</code></pre><p>One match versus all matches.</p><p>Want to remove every hyphen?</p><pre><code>string="malware-analysis-research"
+
+echo "${string//-/}"</code></pre><p><strong>Output:</strong></p><pre><code>malwareanalysisresearch</code></pre><p>Want to replace an extension?</p><pre><code>file="payload.bin"
+
+echo "${file%.bin}.safe"</code></pre><p><strong>Output:</strong></p><pre><code>payload.safe</code></pre><p>And yes, this is all built into Bash.</p><hr/><h2 id="03-case-conversion-%E2%80%93-uppercase-everything">03. Case Conversion – Uppercase Everything</h2><pre><code>name="sl0ppyroot"
+
+echo "${name^^}"
+echo "${name^}"</code></pre><p><strong>Output:</strong></p><pre><code>SL0PPYROOT
+Sl0ppyroot</code></pre><p>Lowercase:</p><pre><code>name="SL0PPYROOT"
+
+echo "${name,,}"
+echo "${name,}"</code></pre><p><strong>Output:</strong></p><pre><code>sl0ppyroot
+sL0ppyroot</code></pre><p>These transformations are available in Bash 4 and later.</p><p>If you're wondering why your old POSIX shell suddenly starts throwing a tantrum, that's because these aren't POSIX parameter expansions.</p><hr/><h2 id="04-substring-expansion-%E2%80%93-slice-it-dice-it">04. Substring Expansion – Slice It, Dice It</h2><pre><code>string="0123456789"
+
+echo "${string:0:4}"
+echo "${string:4:3}"
+echo "${string: -3}"</code></pre><p><strong>Output:</strong></p><pre><code>0123
+456
+789</code></pre><p>The syntax:</p><pre><code>${VARIABLE:OFFSET:LENGTH}</code></pre><p>Negative offsets count backward from the end.</p><p>And yes, that space before <code>-3</code> matters.</p><p>Bash isn't a mind reader.</p><hr/><h2 id="05-indirect-expansion-%E2%80%93-variables-inside-variables">05. Indirect Expansion – Variables Inside Variables</h2><p>Now we're getting somewhere.</p><pre><code>TARGET="192.0.2.10"
+NAME="TARGET"
+
+echo "${!NAME}"</code></pre><p><strong>Output:</strong></p><pre><code>192.0.2.10</code></pre><p>The variable <code>NAME</code> contains the name of another variable.</p><p><code>${!NAME}</code> retrieves its value.</p><p>Let's make it unnecessarily complicated:</p><pre><code>A="B"
+B="C"
+C="KALI"
+
+echo "${!A}"
+echo "${!B}"</code></pre><p><strong>Output:</strong></p><pre><code>C
+KALI</code></pre><p>One variable points to another, which points somewhere else.</p><p>Basically shell-based family drama.</p><hr/><h2 id="06-xor-encoding-%E2%80%93-because-plain-text-is-apparently-too-mainstream">06. XOR Encoding – Because Plain Text Is Apparently Too Mainstream</h2><p>Now let's move into something a little more interesting.</p><p>XOR encoding.</p><p>First, a small reality check:</p><p><strong>XOR encoding is not encryption.</strong></p><p>It's a reversible transformation. A predictable XOR key provides no meaningful confidentiality.</p><p>Still, it's useful for understanding byte transformations, encoding schemes and how shell operators can be combined with external interpreters.</p><p>Let's use a harmless demonstration command:</p><pre><code>printf '%s\n' 'x0xr00t says hello'</code></pre><p>We'll XOR every byte using the key <code>0x23</code>, then Base64-encode the resulting bytes.</p><h3 id="encoding-%E2%80%93-one-liner">Encoding – One-liner</h3><pre><code>python3 -c 'import base64,sys; print(base64.b64encode(bytes(b ^ 0x23 for b in sys.argv[1].encode())).decode())' "printf '%s\n' 'x0xr00t says hello'"</code></pre><p><strong>Output:</strong></p><pre><code>U1FKTVdFAwQGUH9NBAMEWxNbURMTVwNQQlpQA0tGT09MBA==</code></pre><p>There you go.</p><p>A harmless command transformed into a Base64 representation of XOR-encoded bytes.</p><h3 id="decoding-%E2%80%93-one-liner">Decoding – One-liner</h3><p>Now let's reverse the operation:</p><pre><code>python3 -c 'import base64,sys; print(bytes(b ^ 0x23 for b in base64.b64decode(sys.argv[1])).decode())' 'U1FKTVdFAwQGUH9NBAMEWxNbURMTVwNQQlpQA0tGT09MBA=='</code></pre><p><strong>Decoded output:</strong></p><pre><code>printf '%s\n' 'x0xr00t says hello'</code></pre><p>And we're back where we started.</p><p>The same XOR key reverses the transformation because XOR has the property:</p><pre><code>(A XOR K) XOR K = A</code></pre><p>Remember: Base64 is only a representation layer. XOR is the reversible transformation.</p><hr/><h2 id="07-command-substitution-%E2%80%93-the-rabbit-hole">07. Command Substitution – The $() Rabbit Hole</h2><p>Now comes the part where people start looking at their terminal differently.</p><p>Command substitution:</p><pre><code>RESULT="$(printf '%s' 'x0xr00t')"
+
+echo "$RESULT"</code></pre><p><strong>Output:</strong></p><pre><code>x0xr00t</code></pre><p>The shell executes the command inside <code>$()</code> and substitutes its output.</p><p>You can nest it:</p><pre><code>echo "$(printf '%s' "$(printf '%s' 'sl0ppyRoot')")"</code></pre><p><strong>Output:</strong></p><pre><code>sl0ppyRoot</code></pre><p>Why?</p><p>Because apparently one layer of command substitution wasn't enough.</p><h3 id="decoding-directly-into-a-shell-command">Decoding directly into a shell command</h3><p>Let's combine our XOR decoder with command substitution.</p><p>For this demonstration, the decoded command only prints a harmless message.</p><pre><code>bash -c "$(python3 -c 'import base64,sys; print(bytes(b ^ 0x23 for b in base64.b64decode(sys.argv[1])).decode())' 'U1FKTVdFAwQGUH9NBAMEWxNbURMTVwNQQlpQA0tGT09MBA==')"</code></pre><p><strong>Output:</strong></p><pre><code>x0xr00t says hello</code></pre><p>What happened?</p><ol><li>Python decoded the Base64 data.</li><li>XOR reversed the byte transformation.</li><li>Python printed the reconstructed command.</li><li><code>$()</code> captured that output.</li><li><code>bash -c</code> executed the resulting command.</li></ol><p>One-liner.</p><p>Multiple operations.</p><p>And a very good reason to understand what you're actually executing.</p><p><strong>Security note:</strong> This demonstrates command reconstruction and execution, not a security feature. Never pass untrusted decoded strings into <code>bash -c</code>, <code>eval</code> or another command interpreter. XOR does not make a payload safe, trustworthy or undetectable.</p><hr/><h2 id="08-arrays-%E2%80%93-because-one-variable-wasnt-enough">08. Arrays – Because One Variable Wasn't Enough</h2><pre><code>hosts=("localhost" "192.0.2.10" "example.org")
+
+echo "${hosts[@]}"
+echo "${hosts[1]}"
+echo "${#hosts[@]}"</code></pre><p><strong>Output:</strong></p><pre><code>localhost 192.0.2.10 example.org
+192.0.2.10
+3</code></pre><p>Slice them:</p><pre><code>echo "${hosts[@]:1:2}"</code></pre><p><strong>Output:</strong></p><pre><code>192.0.2.10 example.org</code></pre><p>And please, for the love of everything that is still functioning on your Linux installation, quote your array expansions when iterating:</p><pre><code>for host in "${hosts[@]}"; do
+    printf '[+] %s\n' "$host"
+done</code></pre><p>Unquoted expansions can introduce word splitting and pathname expansion.</p><p>Your array deserves better.</p><hr/><h2 id="09-the-one-liner-combos-%E2%80%93-terminal-abuse-championship">09. The One-Liner Combos – Terminal Abuse Championship</h2><p>Now let's combine some of the things we've covered.</p><h3 id="combo-a-%E2%80%93-replace-uppercase-slice">Combo A – Replace, uppercase, slice</h3><pre><code>x="linux-security-research"
+
+x="${x//-/ }"
+x="${x^^}"
+
+echo "${x:0:12}"</code></pre><p><strong>Output:</strong></p><pre><code>LINUX SECURI</code></pre><h3 id="combo-b-%E2%80%93-remove-a-path-and-change-the-extension">Combo B – Remove a path and change the extension</h3><pre><code>f="/opt/sl0ppy/report.log"
+
+f="${f##*/}"
+echo "${f%.log}.txt"</code></pre><p><strong>Output:</strong></p><pre><code>report.txt</code></pre><p>No external utilities.</p><p>No subprocesses.</p><p>Just Bash.</p><h3 id="combo-c-%E2%80%93-nested-command-substitution">Combo C – Nested command substitution</h3><pre><code>printf '[%s]\n' "$(printf '%s' "$(printf '%s' 'x0xr00t' | tr '[:lower:]' '[:upper:]')")"</code></pre><p><strong>Output:</strong></p><pre><code>[X0XR00T]</code></pre><p>Yes, we used <code>tr</code> here.</p><p>Sometimes the point is to demonstrate composition, not pretend every utility is forbidden.</p><h3 id="combo-d-%E2%80%93-xor-transformation-in-a-single-expression">Combo D – XOR transformation in a single expression</h3><pre><code>python3 -c 'print(bytes(b ^ 0x23 for b in b"x0xr00t").hex())'</code></pre><p>This produces the hexadecimal representation of the XOR-transformed bytes.</p><p>Reverse it:</p><pre><code>python3 -c 'print(bytes(b ^ 0x23 for b in bytes.fromhex("5b11")) .decode())'</code></pre><p>Replace the hexadecimal example with the actual encoded output generated by the first command.</p><p>Same key.</p><p>Same operation.</p><p>Original bytes restored.</p><hr/><h2 id="10-final-boss-%E2%80%93-the-shell-is-not-your-interpreters-babysitter">10. Final Boss – The Shell Is Not Your Interpreter's Babysitter</h2><p>Let's finish with something that combines a few Bash features without turning the whole thing into an unreadable maintenance nightmare.</p><pre><code>#!/usr/bin/env bash
+
+set -u
+
+declare -A INFO=(
+    [USER]="x0xr00t"
+    [HOST]="kali-2026"
+    [MODE]="READ-ONLY"
+)
+
+for key in "${!INFO[@]}"; do
+    printf '[%s] %s\n' "$key" "${INFO[$key]}"
+done</code></pre><p>This uses:</p><ul><li>Associative arrays</li><li>Parameter expansion</li><li>Array key enumeration</li><li>Built-in formatting</li><li>No external text-processing tools</li></ul><p>And yes, associative arrays are Bash-specific.</p><hr/><h2 id="11-terminal-compatibility-%E2%80%93-know-your-shell">11. Terminal Compatibility – Know Your Shell</h2><p>Not every shell speaks the same language.</p><p>Here's a quick compatibility overview:</p>
+<!--kg-card-begin: html-->
+<table><tbody><tr><th><span>Feature</span></th><th><span>Bash 5.x</span></th><th><span>Zsh</span></th><th><span>Dash</span></th><th><span>BusyBox ash</span></th><th><span>Fish</span></th></tr><tr><td><span>Default-value expansion</span></td><td><span>Yes</span></td><td><span>Yes</span></td><td><span>Yes</span></td><td><span>Yes</span></td><td><span>Different syntax</span></td></tr><tr><td><span>Prefix/suffix removal</span></td><td><span>Yes</span></td><td><span>Yes</span></td><td><span>Yes</span></td><td><span>Yes</span></td><td><span>Different syntax</span></td></tr><tr><td><span>Global replacement</span></td><td><span>Yes</span></td><td><span>Yes</span></td><td><span>No</span></td><td><span>Version-dependent</span></td><td><span>Different syntax</span></td></tr><tr><td><span>Uppercase expansion</span></td><td><span>Yes</span></td><td><span>Different syntax</span></td><td><span>No</span></td><td><span>No</span></td><td><span>Different syntax</span></td></tr><tr><td><span>Substring expansion</span></td><td><span>Yes</span></td><td><span>Yes</span></td><td><span>No</span></td><td><span>Version-dependent</span></td><td><span>Different syntax</span></td></tr><tr><td><span>Associative arrays</span></td><td><span>Yes</span></td><td><span>Yes</span></td><td><span>No</span></td><td><span>Limited</span></td><td><span>Native lists</span></td></tr></tbody></table>
+<!--kg-card-end: html-->
+<p>Don't assume <code>/bin/sh</code> is Bash.</p><p>On Debian and Kali installations, <code>/bin/sh</code> is commonly Dash.</p><p>Your interactive terminal may happily execute a script that fails when launched through <code>/bin/sh</code>.</p><p>And then you spend the next 45 minutes wondering why your perfectly innocent script has decided to become a crime scene.</p><p>For further information:</p><ul><li>GNU Bash Manual: <a href="https://www.gnu.org/software/bash/manual/">https://www.gnu.org/software/bash/manual/</a></li><li>Zsh Expansion Manual: <a href="https://zsh.sourceforge.io/Doc/Release/Expansion.html">https://zsh.sourceforge.io/Doc/Release/Expansion.html</a></li></ul><hr/><h2 id="closing-statement-%E2%80%93-x0xr00t">Closing Statement – x0xr00t</h2><p>Well, that's another terminal session successfully turned into a questionable life decision.</p><p>We've gone from basic parameter expansion to indirect variables, substring slicing, XOR transformations, nested command substitution and direct execution of reconstructed demonstration commands.</p><p>The important part isn't memorizing 47 different ways to make a one-liner look like it escaped from a malware analysis report.</p><p>It's understanding what the shell actually does with the string before it executes anything.</p><p>Because there's a difference between:</p><ul><li>Knowing a command.</li><li>Understanding its expansion.</li><li>Knowing how quoting changes its behaviour.</li><li>Understanding exactly what gets executed.</li></ul><p>And that last one is rather important when you're doing security research.</p><p>So, until the next episode:</p><p><strong>Stay curious. Stay sharp. Keep your shell quoted. And for crying out loud, stop running mystery one-liners as root.</strong></p><p>You have been warned.</p><p><strong>— x0xr00t | sl0ppyRoot</strong></p><p><em>Red Teaming | Linux Security | Vulnerability Research | Shell Abuse</em></p><p><code>[ END OF TRANSMISSION ]</code></p><hr/><h3 id="references-further-reading">References &amp; Further Reading</h3><ul><li><a href="https://www.gnu.org/software/bash/manual/">GNU Bash Manual</a></li><li><a href="https://www.gnu.org/s/bash/manual/html_node/Shell-Parameter-Expansion.html">Bash Parameter Expansion</a></li><li><a href="https://zsh.sourceforge.io/Doc/Release/Expansion.html">Zsh Expansion Manual</a></li><li><a href="https://docs.python.org/3/">Python Documentation</a></li><li><a href="https://man7.org/linux/man-pages/">Linux Manual Pages</a></li></ul>
+</section>
+      </article>
+    </main>
+
+    <footer>
+      <strong>x0xr00t | sl0ppyRoot</strong><br>
+      Red Teaming · Linux Security · Vulnerability Research<br>
+      <span>[ END OF TRANSMISSION ]</span>
+    </footer>
+  </div>
+</body>
+</html>
