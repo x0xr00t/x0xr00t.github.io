@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="x0xr00t — independent security research, red teaming, technical articles and tooling.">
+  <meta name="theme-color" content="#080b10">
+  <title>x0xr00t | Research & Articles</title>
+  <style>
+    :root{color-scheme:dark;--bg:#080b10;--panel:#101722;--line:#223142;--text:#e7edf5;--muted:#91a2b7;--green:#00ff66;--cyan:#63d8ff}
+    *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:90px}
+    body{margin:0;background:radial-gradient(ellipse at 50% -15%,#142337 0,transparent 48%),var(--bg);color:var(--text);font:16px/1.65 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+    a{color:var(--cyan);text-decoration:none}a:hover{color:var(--green)}
+    .wrap{width:min(1120px,calc(100% - 36px));margin:auto}
+    header{padding:58px 0 36px;text-align:center}.eyebrow,.kicker{color:var(--green);font:700 .78rem ui-monospace,monospace;letter-spacing:.16em;text-transform:uppercase}
+    h1{font-size:clamp(2.5rem,7vw,5rem);line-height:1.05;letter-spacing:-.055em;margin:13px 0}h1 span{color:var(--green);text-shadow:0 0 24px #00ff6630}
+    .lead{max-width:760px;color:var(--muted);margin:18px auto}
+    .terminal{display:inline-flex;align-items:center;gap:10px;margin-top:20px;padding:8px 14px;border:1px solid var(--line);border-radius:99px;background:#090e15;color:#b6c7d9;font: .82rem ui-monospace,monospace}
+    .pulse{width:8px;height:8px;background:var(--green);border-radius:50%;box-shadow:0 0 12px var(--green)}
+    .nav-shell{position:sticky;top:0;z-index:20;background:#080b10e8;backdrop-filter:blur(14px);border-block:1px solid #1c2a39}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:58px}
+    .brand{font:700 .95rem ui-monospace,monospace;color:var(--green);white-space:nowrap}
+    .menu{display:flex;align-items:center;gap:5px}.menu a{color:#c2d0df;padding:8px 12px;border-radius:8px;font-size:.9rem}.menu a:hover,.menu a.active{background:#152131;color:var(--green)}
+    .menu-toggle{display:none;background:#101722;border:1px solid var(--line);color:var(--text);border-radius:8px;padding:8px 12px;font:inherit;cursor:pointer}
+    section{padding:38px 0}.head{display:flex;align-items:end;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-bottom:20px}
+    h2{font-size:clamp(1.55rem,4vw,2.2rem);letter-spacing:-.03em;margin:5px 0 0}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px}
+    .card{grid-column:span 6;background:linear-gradient(145deg,#101722,#0c121b);border:1px solid var(--line);border-radius:16px;padding:23px;box-shadow:0 12px 35px #0002;display:flex;flex-direction:column}
+    .card.full{grid-column:span 12}.card.small{grid-column:span 4}
+    .card h3{font-size:1.18rem;margin:7px 0}.card p{color:var(--muted);margin:0 0 16px}
+    .tags{display:flex;flex-wrap:wrap;gap:7px;margin:7px 0 18px}.tag{border:1px solid #284052;background:#0b151f;color:#a9d9e9;border-radius:99px;padding:4px 9px;font-size:.75rem}
+    .foot{margin-top:auto;border-top:1px solid #1e2b39;padding-top:15px;display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:.88rem}
+    .read{color:var(--green);font-weight:700}.bio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}
+    .fact{border:1px solid #1e2d3c;border-radius:10px;padding:13px;background:#0b121a}.fact b{display:block;color:var(--cyan);font: .75rem ui-monospace,monospace;text-transform:uppercase;margin-bottom:5px}.fact span{font-size:.9rem;color:#c8d4e1}
+    .callout{border-left:3px solid var(--green);background:#0b1712;padding:12px 16px;border-radius:0 9px 9px 0;color:#b9cbbf;margin-top:18px}
+    footer{border-top:1px solid var(--line);margin-top:35px;padding:27px 0;text-align:center;color:var(--muted);font-size:.85rem}
+    @media(max-width:760px){.nav-inner{flex-wrap:wrap;padding:10px 0}.menu-toggle{display:block;margin-left:auto}.menu{display:none;width:100%;flex-direction:column;align-items:stretch;padding:5px 0 8px}.menu.open{display:flex}.menu a{padding:10px 12px}.card,.card.small{grid-column:span 12}.bio-grid{grid-template-columns:1fr}header{padding-top:40px}}
+  </style>
+</head>
+<body>
+<header id="home">
+  <div class="wrap">
+    <div class="eyebrow">Independent Security Research · Red Teaming</div>
+    <h1>Patrick Hoogeveen<br><span>/ x0xr00t /</span></h1>
+    <p class="lead">Researching how systems fail, documenting what I learn, and building tools that make security work more practical. Technical articles, field notes, projects and experiments.</p>
+    <div class="terminal"><span class="pulse"></span><span>research.mode = "curious"; // proceed with caution</span></div>
+  </div>
+</header>
+
+<div class="nav-shell">
+  <nav class="wrap nav-inner" aria-label="Main navigation">
+    <a class="brand" href="#home">x0xr00t://</a>
+    <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mainMenu">☰ Menu</button>
+    <div class="menu" id="mainMenu">
+      <a href="#about">Biography</a><a href="#articles">Articles</a><a href="#projects">Projects</a><a href="#links">Links</a>
+    </div>
+  </nav>
+</div>
+
+<main class="wrap">
+  <section id="about">
+    <div class="head"><div class="kicker">01 / Profile</div><h2>x0xr00t Biography</h2></div>
+    <div class="card full">
+      <p><strong>x0xr00t</strong> is the research identity of Patrick Hoogeveen, an independent security researcher focused on hands-on security testing, vulnerability research, red-team operations and technical write-ups. The approach is practical: investigate, reproduce, understand the mechanics, and share useful lessons.</p>
+      <div class="tags"><span class="tag">Red Team Operations</span><span class="tag">Vulnerability Research</span><span class="tag">Windows Security</span><span class="tag">Linux Security</span><span class="tag">Exploit Development</span><span class="tag">Web & Network Testing</span><span class="tag">Responsible Disclosure</span><span class="tag">Open-Source Tooling</span><span class="tag">Ruby · Python · Go · Bash · PowerShell</span></div>
+      <div class="bio-grid">
+        <div class="fact"><b>Focus</b><span>Research, assessment, detection and security engineering</span></div>
+        <div class="fact"><b>Approach</b><span>Hands-on, technical, curious and direct</span></div>
+        <div class="fact"><b>Output</b><span>Articles, tools, PoCs and educational notes</span></div>
+      </div>
+      <div class="callout">I break things to learn how they work. Research responsibly, understand the impact, and improve the defense.</div>
+    </div>
+  </section>
+
+  <section id="articles">
+    <div class="head"><div class="kicker">02 / Knowledge Base</div><h2>Blog Posts & Articles</h2></div>
+    <div class="grid">
+      <article class="card">
+        <div class="kicker">Linux · Shellcraft · Series</div><h3>Funny Deadly Linux Strings — Part Three</h3>
+        <p><em>Parameter Expansion War Crimes.</em> Shell expansion tricks, compact expressions, encoding examples and the mechanics behind unusual Linux strings.</p>
+        <div class="tags"><span class="tag">Bash</span><span class="tag">Parameter Expansion</span><span class="tag">XOR</span></div>
+        <div class="foot"><span>Article · Part 3</span><a class="read" href="blog/post/funny-deadly-linux-strings/part3/index.html">Read article ↗</a></div>
+      </article>
+      <article class="card">
+        <div class="kicker">Archive</div><h3>x0xr00t Blog</h3>
+        <p>Browse the wider blog archive for research notes, write-ups and other article series.</p>
+        <div class="tags"><span class="tag">Research Notes</span><span class="tag">Archive</span></div>
+        <div class="foot"><span>Online archive</span><a class="read" href="https://x0xr00t.github.io/x0xr00t-blog/">Open blog ↗</a></div>
+      </article>
+      <article class="card">
+        <div class="kicker">Earlier entries</div><h3>Funny Deadly Linux Strings — Parts One & Two</h3>
+        <p>Find the previous entries in the Linux string series through the article archive.</p>
+        <div class="tags"><span class="tag">Linux</span><span class="tag">Shell</span><span class="tag">Series</span></div>
+        <div class="foot"><span>Series archive</span><a class="read" href="https://x0xr00t.github.io/x0xr00t-blog/">Find articles ↗</a></div>
+      </article>
+      <article class="card">
+        <div class="kicker">More writing</div><h3>Security Research & Technical Write-ups</h3>
+        <p>Additional vulnerability research, tooling notes, security experiments and practical write-ups.</p>
+        <div class="tags"><span class="tag">Research</span><span class="tag">Write-ups</span></div>
+        <div class="foot"><span>All posts</span><a class="read" href="https://github.com/x0xr00t/x0xr00t.github.io/tree/main/x0xr00t-blog">Browse repository ↗</a></div>
+      </article>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="head"><div class="kicker">03 / Engineering</div><h2>Projects & Tooling</h2></div>
+    <div class="grid">
+      <article class="card small"><h3>sl0ppyRoot Tools</h3><p>Security utilities, system assessment tools, research PoCs and automation.</p><a class="read" href="https://github.com/x0xr00t?tab=repositories">Explore repositories ↗</a></article>
+      <article class="card small"><h3>Research & PoCs</h3><p>Experiments and technical work shared for learning and responsible research.</p><a class="read" href="https://github.com/x0xr00t">GitHub profile ↗</a></article>
+      <article class="card small"><h3>Security Notes</h3><p>Observations across Linux, Windows, web, network and endpoint security.</p><a class="read" href="#articles">Browse articles ↑</a></article>
+    </div>
+  </section>
+
+  <section id="links">
+    <div class="head"><div class="kicker">04 / Elsewhere</div><h2>Find x0xr00t</h2></div>
+    <div class="grid">
+      <article class="card small"><h3>GitHub</h3><p>Open-source projects, code and research.</p><a href="https://github.com/x0xr00t">github.com/x0xr00t ↗</a></article>
+      <article class="card small"><h3>Main Website</h3><p>Profile and security research landing page.</p><a href="https://x0xr00t.github.io/">x0xr00t.github.io ↗</a></article>
+      <article class="card small"><h3>LinkedIn</h3><p>Professional profile and background.</p><a href="https://www.linkedin.com/in/patrick-hoogeveen-xoxroot/">LinkedIn ↗</a></article>
+    </div>
+  </section>
+</main>
+<footer><div class="wrap">© <span id="year">2026</span> x0xr00t · Independent Security Research · <a href="#home">Back to top ↑</a></div></footer>
+<script>
+  const toggle = document.getElementById('menuToggle');
+  const menu = document.getElementById('mainMenu');
+  toggle.addEventListener('click', () => {
+    const open = menu.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', String(open));
+  });
+  menu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+    menu.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+  }));
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
