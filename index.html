@@ -1028,6 +1028,91 @@
       .theatre-line,
       .theatre-reveal.show{animation:none}
     }
+
+    /* ==========================================
+       x0xr00t GLITCH IDENTITY TITLE
+       ========================================== */
+    .site-hero .glitch-title{
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:center;
+      gap:.18em .32em;
+      width:100%;
+      margin:.5rem 0 .75rem;
+      color:#fff;
+      font:700 clamp(1.65rem,5vw,3.35rem)/1.2 "Courier New",Courier,monospace;
+      letter-spacing:.025em;
+      text-align:center;
+    }
+    .glitch-title .slash{
+      color:#687080;
+      animation:glitch-slash-pulse 2s infinite;
+      user-select:none;
+    }
+    .glitch-title .glitch-name{
+      position:relative;
+      display:inline-block;
+      width:0;
+      overflow:hidden;
+      white-space:nowrap;
+      flex:0 0 auto;
+      animation:glitch-type 1.5s steps(17,end) forwards;
+    }
+    .glitch-title .name-patrick{color:#fff;width:0;animation:glitch-type-patrick 1.5s steps(17,end) forwards}
+    .glitch-title .name-x0x{color:#ff3333;width:0;animation:glitch-type-x0x 1s steps(7,end) 1.6s forwards}
+    .glitch-title .name-sensei{color:#00ff66;width:0;animation:glitch-type-sensei 1s steps(6,end) 2.7s forwards}
+    .glitch-title .glitch-name::before,
+    .glitch-title .glitch-name::after{
+      content:attr(data-text);
+      position:absolute;inset:0;
+      width:100%;height:100%;
+      overflow:hidden;
+      pointer-events:none;
+      background:var(--bg);
+    }
+    .glitch-title .name-patrick::before{color:#fff;text-shadow:-2px 0 #aaa;animation:glitch-fade 2.4s infinite linear alternate-reverse}
+    .glitch-title .name-patrick::after{color:#fff;text-shadow:2px 0 #555;animation:glitch-fade 1.8s infinite linear alternate}
+    .glitch-title .name-x0x::before{color:#ff3333;text-shadow:-2px 0 #f00,1px 0 #f88;animation:glitch-main 1s infinite linear alternate-reverse}
+    .glitch-title .name-x0x::after{color:#ff3333;text-shadow:2px 0 #900;animation:glitch-secondary .8s infinite linear alternate}
+    .glitch-title .name-sensei::before{color:#00ff66;text-shadow:-2px 0 #0f0,1px 0 #8f8;animation:glitch-main 1.2s infinite linear alternate-reverse}
+    .glitch-title .name-sensei::after{color:#00ff66;text-shadow:2px 0 #062;animation:glitch-secondary .6s infinite linear alternate}
+    @keyframes glitch-type-patrick{from{width:0}to{width:17ch}}
+    @keyframes glitch-type-x0x{from{width:0}to{width:7ch}}
+    @keyframes glitch-type-sensei{from{width:0}to{width:6ch}}
+    @keyframes glitch-slash-pulse{0%,100%{opacity:.35}50%{opacity:1}}
+    @keyframes glitch-fade{
+      0%,100%{clip-path:inset(40% 0 61% 0);opacity:.8}
+      20%{clip-path:inset(92% 0 1% 0);opacity:.2}
+      40%{clip-path:inset(5% 0 85% 0);opacity:1;transform:skewX(-5deg)}
+      60%{clip-path:inset(80% 0 5% 0);opacity:.4}
+      80%{clip-path:inset(15% 0 40% 0);opacity:.9;transform:skewX(5deg)}
+    }
+    @keyframes glitch-main{
+      0%{clip-path:inset(10% 0 80% 0);transform:translateX(-2px)}
+      20%{clip-path:inset(50% 0 30% 0);transform:translateX(3px) skewY(2deg)}
+      40%{clip-path:inset(30% 0 60% 0);transform:translateX(-1px)}
+      60%{clip-path:inset(80% 0 5% 0);transform:translateX(2px) skewX(-3deg)}
+      80%{clip-path:inset(0 0 90% 0);transform:translateX(-3px)}
+      100%{clip-path:inset(60% 0 20% 0);transform:translateX(1px)}
+    }
+    @keyframes glitch-secondary{
+      0%{clip-path:inset(70% 0 10% 0);transform:translateX(2px)}
+      25%{clip-path:inset(20% 0 50% 0);transform:translateX(-2px) skewX(5deg)}
+      50%{clip-path:inset(40% 0 40% 0);transform:translateX(1px)}
+      75%{clip-path:inset(10% 0 80% 0);transform:translateX(-1px) skewY(-2deg)}
+      100%{clip-path:inset(85% 0 2% 0);transform:translateX(3px)}
+    }
+    @media(max-width:700px){
+      .site-hero .glitch-title{gap:.12em .22em;font-size:clamp(1.2rem,6vw,2.3rem)}
+    }
+    @media(prefers-reduced-motion:reduce){
+      .glitch-title .glitch-name,.glitch-title .slash,
+      .glitch-title .glitch-name::before,.glitch-title .glitch-name::after{animation:none}
+      .glitch-title .name-patrick{width:17ch}
+      .glitch-title .name-x0x{width:7ch}
+      .glitch-title .name-sensei{width:6ch}
+    }
   </style>
 </head>
 
@@ -1039,7 +1124,13 @@
 
       <div class="eyebrow">Independent Security Research · Red Teaming</div>
 
-      <h1>Patrick Hoogeveen <span>/ x0xr00t / s3ns31</span></h1>
+      <h1 class="glitch-title" aria-label="Patrick Hoogeveen / x0xr00t / s3ns31">
+        <span class="glitch-name name-patrick" data-text="Patrick Hoogeveen">Patrick Hoogeveen</span>
+        <span class="slash" aria-hidden="true">/</span>
+        <span class="glitch-name name-x0x" data-text="x0xr00t">x0xr00t</span>
+        <span class="slash" aria-hidden="true">/</span>
+        <span class="glitch-name name-sensei" data-text="s3ns31">s3ns31</span>
+      </h1>
 
       <div class="hero-typing" aria-label="Welcome and introduction">
       <div class="bio-container">
