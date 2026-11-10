@@ -1132,24 +1132,32 @@
         <span class="glitch-name name-sensei" data-text="s3ns31">s3ns31</span>
       </h1>
 
-      <div class="hero-typing" aria-label="Welcome and introduction">
-      <div class="bio-container">
-        <!-- Profielfoto / Avatar Placeholder -->
-        <div class="avatar">x0xr00t page-views</div>
-        <!-- Live Paginateller (HTML-integratie) -->
-         <div class="counter-box">
-             <span class="counter-label">Total visitors:</span>
-             <img src="https://komarev.com" alt="x0xr00t Page Views" class="counter-badge">
-         </div>
-     </div>      
-        <div class="typing-banners typing-welcome">
-          <img
-            src="https://readme-typing-svg.demolab.com?font=Orbitron&size=29&duration=5000&pause=1800&color=FF0001&center=true&vCenter=true&width=1000&height=76&repeat=true&random=false&lines=Welcome+To+My+Page;Welcome+To+My+Bio;Are+U+Sure+U+Need+To+Be+Here%3F;Proceed+With+Caution;For+The+Fans;Thanks+For+The+Support"
-            alt="Welcome to my page; proceed with caution"
-          />
-        </div>
+      <div class="counter-box">
+        <span class="counter-label">Total visitors:</span>
+        <button id="load-counter" type="button"
+          style="color:#63a8ff;background:none;border:1px solid #263449;
+                 border-radius:6px;padding:.3rem .7rem;cursor:pointer;font:inherit">
+           Show visitor counter (loads external badge)
+        </button>
+        <img id="counter-badge" alt="x0xr00t Page Views" class="counter-badge"
+             style="display:none">
+      </div>
 
-        <div class="typing-banners typing-role">
+      <script>
+      (() => {
+        "use strict";
+        const btn = document.getElementById("load-counter");
+        const img = document.getElementById("counter-badge");
+        if (!btn || !img) return;
+        btn.addEventListener("click", () => {
+         img.src = "https://komarev.com/v1/your-username.svg"; // real badge URL
+         img.style.display = "inline-block";
+          btn.remove(); // one-time, not persisted (no cookie/localStorage needed)
+        });
+      })();
+      </script>
+
+      <div class="typing-banners typing-role">
           <img
             src="https://readme-typing-svg.demolab.com?font=Orbitron&size=25&duration=4800&pause=1700&color=FF0000&center=true&vCenter=true&width=1000&height=72&repeat=true&random=false&lines=Red+Team+Specialist;Independent+Security+Researcher;Security+Tool+Developer;Vulnerability+Research;Long+Running+Independent+Research"
             alt="Red Team Specialist, independent security researcher and tool developer"
