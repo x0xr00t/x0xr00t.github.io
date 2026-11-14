@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Insane Bash and Zsh strings, expansion-order tricks, byte reconstruction, globbing and shell obfuscation explained by x0xr00t.">
+  <meta name="author" content="x0xr00t">
+  <meta name="theme-color" content="#090d12">
+  <title>Funny Deadly Linux Strings — Part Four: Expansion Order Crimes | x0xr00t</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #090d12;
+      --panel: #101820;
+      --panel-2: #0c131a;
+      --text: #d9e2e8;
+      --muted: #91a0aa;
+      --accent: #00ff66;
+      --cyan: #42d9ff;
+      --border: #24333d;
+      --code: #070b0f;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: radial-gradient(ellipse at top, #12202a 0, var(--bg) 52rem);
+      color: var(--text);
+      font: 16px/1.75 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    a { color: var(--cyan); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+    a:hover { color: var(--accent); }
+    .shell { width: min(920px, calc(100% - 36px)); margin: 0 auto; }
+    .topline { border-bottom: 1px solid var(--border); }
+    .topline-inner {
+      min-height: 68px; display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; flex-wrap: wrap;
+    }
+    .brand { color: var(--accent); font-weight: 800; letter-spacing: .08em; text-decoration: none; }
+    .brand span { color: var(--muted); font-weight: 500; letter-spacing: 0; }
+    .eyebrow { color: var(--accent); font: 700 .76rem/1.4 ui-monospace, monospace; letter-spacing: .13em; text-transform: uppercase; }
+    header.article-head { padding: clamp(42px, 8vw, 82px) 0 34px; }
+    h1 {
+      margin: 12px 0 18px; max-width: 850px; color: #f3f7f9;
+      font-size: clamp(2.2rem, 6vw, 4.4rem); line-height: 1.08; letter-spacing: -.045em;
+    }
+    .subtitle { max-width: 760px; color: #b6c5ce; font-size: clamp(1.05rem, 2.2vw, 1.25rem); }
+    .byline { display: flex; gap: 12px 22px; flex-wrap: wrap; margin-top: 25px; color: var(--muted); font-size: .9rem; }
+    .byline strong { color: var(--text); }
+    main {
+      margin-bottom: 70px; padding: clamp(22px, 5vw, 52px);
+      background: color-mix(in srgb, var(--panel) 94%, transparent);
+      border: 1px solid var(--border); border-radius: 16px;
+      box-shadow: 0 24px 80px #0005;
+    }
+    .content { overflow-wrap: anywhere; }
+    .content h2 { margin: 2.2em 0 .65em; color: #f2f7f9; font-size: clamp(1.55rem, 3.4vw, 2rem); line-height: 1.25; }
+    .content h3 { margin: 1.8em 0 .6em; color: var(--cyan); font-size: 1.22rem; line-height: 1.35; }
+    .content p { margin: 1em 0; }
+    .content strong { color: #f5fafc; }
+    .content hr { border: 0; border-top: 1px solid var(--border); margin: 2.5em 0; }
+    .content ul, .content ol { padding-left: 1.5rem; }
+    .content li { margin: .35em 0; }
+    .content code {
+      padding: .12em .38em; border: 1px solid #293943; border-radius: 5px;
+      background: #0a1117; color: #9fffc1; font: .9em ui-monospace, SFMono-Regular, Consolas, monospace;
+    }
+    .content pre {
+      max-width: 100%; overflow-x: auto; margin: 1.2em 0 1.5em; padding: 18px 20px;
+      border: 1px solid #263943; border-left: 3px solid var(--accent); border-radius: 9px;
+      background: var(--code); color: #d8e6eb; line-height: 1.6;
+      tab-size: 4; white-space: pre;
+    }
+    .content pre code { padding: 0; border: 0; background: transparent; color: inherit; font-size: .9rem; }
+    .content table { display: block; width: 100%; overflow-x: auto; border-collapse: collapse; }
+    .content th, .content td { padding: 10px 12px; border: 1px solid var(--border); text-align: left; }
+    .content th { background: #14232c; color: var(--accent); }
+    .content blockquote { margin: 1.5em 0; padding: 4px 18px; border-left: 3px solid var(--cyan); color: #b9c8d0; }
+    footer { padding: 0 0 38px; color: var(--muted); text-align: center; font-size: .85rem; }
+    footer strong { color: var(--accent); }
+    @media (max-width: 600px) {
+      .shell { width: min(100% - 22px, 920px); }
+      main { padding: 20px 16px; border-radius: 11px; }
+      .content pre { padding: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topline">
+    <div class="shell topline-inner">
+      <a class="brand" href="#top">x0xr00t <span>/ sl0ppyRoot</span></a>
+      <span class="eyebrow">Linux · Shell Research · Part 04</span>
+    </div>
+  </div>
+
+  <div class="shell" id="top">
+    <header class="article-head">
+      <div class="eyebrow">Funny Deadly Linux Strings</div>
+      <h1>Part Four: Expansion Order Crimes, Globbing War Crimes &amp; Shell Shenanigans</h1>
+      <p class="subtitle">ANSI-C Quoting, Hex Reconstruction, Arithmetic Abuse, Indirect Variables, Extglob &amp; Other Reasons Your Terminal Needs Adult Supervision</p>
+      <div class="byline">
+        <span>By <strong>x0xr00t</strong></span>
+        <span>Series: Funny Deadly Linux Strings — Part 4</span>
+        <span>Updated: November 14, 2026</span>
+      </div>
+    </header>
+
+    <main>
+      <article class="content">
+        <section>
+          <p><strong>Author:</strong> x0xr00t</p>
+          <p><strong>Series:</strong> Funny Deadly Linux Strings – Part 4<br>
+          <strong>Platform:</strong> Kali Linux 2026, Debian, Ubuntu, Fedora, Arch Linux and other modern Linux distributions.</p>
+          <hr>
+
+          <h2>Previously, on Terminal Abuse...</h2>
+          <p>Well, look who's back for another episode of questionable shell behaviour.</p>
+          <p>In Part Three we played with parameter expansion, indirect variables, substring slicing, XOR transformations and command substitution. We made Bash do work that would normally have people reaching for <code>sed</code>, <code>awk</code> and a questionable amount of coffee.</p>
+          <p>But apparently that wasn't enough.</p>
+          <p>For Part Four, we're going deeper into the shell's expansion machinery. We're going to rebuild strings from hex, octal and ANSI-C escapes, make arithmetic expansions look like an incident report, bend globbing into shapes that should probably require a permit, and chain substitutions until a one-liner starts looking like it was recovered from a compromised jump box.</p>
+          <p>These are not magic tricks. They're demonstrations of how Bash and Zsh parse and expand input. The trick is understanding the order of operations rather than blindly pasting terminal spaghetti into a root shell.</p>
+          <p><strong>Compatibility note:</strong> Most examples target Bash 5.x. Zsh-only examples are labelled. These are not automatically POSIX <code>/bin/sh</code> snippets, and they are not intended for Dash or Fish.</p>
+          <hr>
+
+          <h2>01. ANSI-C Quoting — Rebuilding Strings Like a Shell Archaeologist</h2>
+          <p>Bash has a quoting form that lets you place escape sequences directly inside a string: <code>$'...'</code>.</p>
+          <pre><code>#!/usr/bin/env bash
+
+printf '%s\n' $'x0xr00t\nsl0ppyRoot\tterminal-abuse'</code></pre>
+          <p><strong>Output:</strong></p>
+          <pre><code>x0xr00t
+sl0ppyRoot    terminal-abuse</code></pre>
+          <p>That <code>\n</code> becomes a newline. The <code>\t</code> becomes a tab. Nothing spooky yet.</p>
+          <p>Now let's reconstruct a string from hexadecimal bytes:</p>
+          <pre><code>printf '%s\n' $'\x78\x30\x78\x72\x30\x30\x74'</code></pre>
+          <p><strong>Output:</strong></p>
+          <pre><code>x0xr00t</code></pre>
+          <p>And the octal version, because apparently one encoding wasn't enough:</p>
+          <pre><code>printf '%s\n' $'\170\060\170\162\060\060\164'</code></pre>
+          <p><strong>Output:</strong></p>
+          <pre><code>x0xr00t</code></pre>
+          <p>Same bytes. Different costume. The shell still ends up with the same string.</p>
+          <p>For a byte-by-byte view, use:</p>
+          <pre><code>printf '%s' $'\x78\x30\x78\x72\x30\x30\x74' | od -An -tx1</code></pre>
+          <p><strong>Output:</strong></p>
+          <pre><code>78 30 78 72 30 30 74</code></pre>
+          <p>This is useful when analysing weird strings, escape-heavy scripts and parser behaviour. It is not encryption. It is just another way to express bytes.</p>
+
+          <hr>
+          <h2>02. Quote Concatenation — One Word, Several Disguises</h2>
+          <p>Shell quoting is not simply “quoted” or “not quoted”. Adjacent quoted and unquoted segments can become one argument after parsing.</p>
+          <pre><code>printf '<%s>\n' 'x0x'"r"'00'"t'</code></pre>
+          <p><strong>Output:</strong></p>
+          <pre><code><x0xr00t></code></pre>
+          <p>Four visual pieces. One resulting argument. The shell glues adjacent segments together before the command receives them.</p>
+          <p>Try mixing ANSI-C quoting into the same word:</p>
+          <pre><code>printf '%s\n' 'x0' $'\x78' "r00t"</code></pre>
+          <p><strong>Output:</strong></p>
+          <pre><code>x0
+x
+r00t</code></pre>
+          <p>Those are three arguments because the spaces separate them. Remove the spaces and the segments concatenate:</p>
+          <pre><code>printf '%s\n' 'x0'$'\x78'"r00t"</code></pre>
+          <p><strong>Output:</strong></p>
+          <pre><code>x0xr00t</code></pre>
+          <p>That's the important distinction: quote boundaries affect expansion and word splitting, but adjacent segments can still form a single word.</p>
+
+          <hr>
+          <h2>03. Parameter Expansion Gets Weird — Defaults, Lengths and Slices</h2>
+          <p>Part Three covered the basics. Now let's stack a few expansions together.</p>
+          <pre><code>name=""
+
+printf '<%s>\n' "${name:-fallback}"
+printf '<%s>\n' "${name-fallback}"
+
+name="x0xr00t"
+printf '%s\n' "${#name}"
+printf '%s\n' "${name:1:4}"
+printf '%s\n' "${name: -3}"</code></pre>
+          <p><strong>Output:</strong></p>
+          <pre><code><fallback>
+<>
+7
+0xr0
+00t</code></pre>
+          <p>There is a difference between <code>:-</code> and <code>-</code>. The colon form uses the fallback when the variable is unset <em>or empty</em>. Without the colon, the fallback is used only when it is unset.</p>
+          <p>Now the string-replacement version:</p>
+          <pre><code>value="red-team-red-team"
+printf '%s\n' "${value/red/BLUE}"
+printf '%s\n' "${value//red/BLUE}"
+printf '%s\n' "${value//-/_}"</code></pre>
+          <p><strong>Output:</strong></p>
+          <pre><code>BLUE-team-red-team
+BLUE-team-BLUE-team
+red_team_red_team</code></pre>
+          <p>Built-in string surgery. No subprocess required.</p>
+
+          <hr>
+          <h2>04. Indirect Expansion — Variables Pointing at Variables</h2>
+          <p>Let's make a variable hold the name of another variable, then ask Bash to follow the pointer.</p>
+          <pre><code>FIRST="SECOND"
+SECOND="THIRD"
+THIRD="x0xr00t"
+
+printf '%s\n' "${!FIRST}"
+printf '%s\n' "${!SECOND}"</code></pre>
+          <p><strong>Output:</strong></p>
+          <pre><code>THIRD
+x0xr00t</code></pre>
+          <p><code>${!NAME}</code> performs indirect expansion: Bash reads the value stored in <code>NAME</code>, treats that value as another variable name, and expands it.</p>
+          <p>Want a more explicit version? Bash namerefs can point one variable at another:</p>
+          <pre><code>declare TARGET="sl0ppyRoot"
+declare -n REF=TARGET
+
+printf '%s\n' "$REF"
+REF="x0xr00t"
+printf '%s\n' "$TARGET"</code></pre>
+          <p><strong>Output:</strong></p>
+          <pre><code>sl0ppyRoot
+x0xr00t</code></pre>
+          <p>That second assignment changed <code>TARGET</code> through the reference. Useful, powerful, and an excellent way to confuse someone reading a script at 03:00.</p>
+
+          <hr>
+          <h2>05. Arithmetic Expansion — Bitwise Shenanigans</h2>
+          <p>Bash arithmetic expansion can do more than add two numbers. It supports bitwise operators too.</p>
+          <pre><code>a=42
+b=15
+
+printf 'AND: %d\n' "$((a &amp; b))"
+printf 'OR:  %d\n' "$((a | b))"
+printf 'XOR: %d\n' "$((a ^ b))"
+printf 'NOT: %d\n' "$((~a))"
+printf 'SHIFT: %d\n' "$((a &lt;&lt; 1))"</code></pre>
+          <p><strong>Output:</strong></p>
+          <pre><code>AND: 10
+OR:  47
+XOR: 37
+NOT: -43
+SHIFT: 84</code></pre>
+          <p>And here's a tiny XOR round-trip without calling Python:</p>
+          <pre><code>value=120
+key=35
+encoded=$(( value ^ key ))
+decoded=$(( encoded ^ key ))
+
+printf 'encoded=%d decoded=%d\n' "$encoded" "$decoded"</code></pre>
+          <p><strong>Output:</strong></p>
+          <pre><code>encoded=91 decoded=120</code></pre>
+          <p>XOR with the same key reverses itself: <code>(value ^ key) ^ key</code> gives you the original value. This is a byte/number demonstration, not secure encryption. Bash arithmetic also uses signed machine integers, so it is not a general-purpose binary-data container.</p>
+
+          <hr>
+          <h2>06. Arrays — Index Gymnastics</h2>
+          <p>Arrays are already handy. Now let's use offsets, lengths and indirect indexing.</p>
+          <pre><code>parts=(x0 xr 00 t sl0 ppy Root)
+
+printf '%s\n' "${parts[@]}"
+printf 'count=%d\n' "${#parts[@]}"
+printf 'slice=%s\n' "${parts[@]:1:3}"</code></pre>
+          <p><strong>Output:</strong></p>
+          <pre><code>x0
+xr
+00
+t
+sl0
+ppy
+Root
+count=7
+slice=xr 00 t</code></pre>
+          <p>Reassemble the pieces without an external utility:</p>
+          <pre><code>joined=""
+for part in "${parts[@]:0:4}"; do
+    joined+="$part"
+done
+printf '%s\n' "$joined"</code></pre>
+          <p><strong>Output:</strong></p>
+          <pre><code>x0xr00t</code></pre>
+          <p>And a compact version using <code>printf</code>:</p>
+          <pre><code>printf '%s' "${parts[@]:0:4}"</code></pre>
+          <p>That last one prints the selected elements back-to-back because the format string has no separator. Tiny detail. Big difference.</p>
+
+          <hr>
+          <h2>07. Globbing War Crimes — Extglob Enters the Chat</h2>
+          <p>Bash extended globbing adds pattern operators that make filename matching considerably more expressive. First, enable it:</p>
+          <pre><code>shopt -s extglob</code></pre>
+          <p>Here are a few patterns against strings using Bash's pattern matching:</p>
+          <pre><code>value="report.log"
+
+[[ $value == *.log ]] &amp;&amp; echo "log file"
+[[ $value == !(*.tmp) ]] &amp;&amp; echo "not a tmp file"
+[[ $value == +([[:alnum:]_.-]).log ]] &amp;&amp; echo "safe-looking name"</code></pre>
+          <p><strong>Output:</strong></p>
+          <pre><code>log file
+not a tmp file
+safe-looking name</code></pre>
+          <p>Some of the extglob operators:</p>
+          <pre><code>?()    zero or one match
+*()    zero or more matches
++()    one or more matches
+@()    exactly one alternative
+!()    anything except the pattern</code></pre>
+          <p>For a file-based demonstration, use a disposable directory so the pattern doesn't go sightseeing through your real home directory:</p>
+          <pre><code>tmpdir="$(mktemp -d)"
+touch "$tmpdir/a.log" "$tmpdir/b.tmp" "$tmpdir/c.log"
+
+(
+    shopt -s extglob nullglob
+    cd "$tmpdir" || exit 1
+    printf 'non-tmp: %s\n' !(*.tmp)
+)
+
+rm -rf -- "$tmpdir"</code></pre>
+          <p>The cleanup is limited to the directory created by <code>mktemp</code>. Don't replace that variable with a path you haven't checked.</p>
+
+          <hr>
+          <h2>08. Zsh Glob Qualifiers — Because Bash Wasn't Complicated Enough</h2>
+          <p>Zsh has its own glob qualifier syntax. These examples are for Zsh, not Bash.</p>
+          <pre><code>zsh
+files=( *(.) )
+printf '%s\n' "${files[@]}"</code></pre>
+          <p>The <code>(.)</code> qualifier selects plain files in the current directory. A few more examples:</p>
+          <pre><code>*(.)     regular files
+*(/)     directories
+*(om)    sorted by modification time, newest first
+*(.N)    regular files; return an empty result instead of a no-match error</code></pre>
+          <p>For example, list regular files newest-first:</p>
+          <pre><code>printf '%s\n' *(om.)</code></pre>
+          <p>Zsh's glob qualifiers are extremely useful, but don't paste them into Bash and then blame Linux when the shell throws a chair.</p>
+
+          <hr>
+          <h2>09. Nested Command Substitution — The Parentheses Have Parents</h2>
+          <p>Command substitution captures output. Nesting it creates a sequence of evaluations from the inside out.</p>
+          <pre><code>result="$(printf '%s' "$(printf '%s' "$(printf '%s' 'x0xr00t')")")"
+printf '%s\n' "$result"</code></pre>
+          <p><strong>Output:</strong></p>
+          <pre><code>x0xr00t</code></pre>
+          <p>Now let's combine transformations without hiding what is happening:</p>
+          <pre><code>printf '[%s]\n' "$(
+    value="$(printf '%s' 'sl0ppyRoot')"
+    value="${value//Root/ROOT}"
+    printf '%s' "${value^^}"
+)"</code></pre>
+          <p><strong>Output:</strong></p>
+          <pre><code>[SL0PPYROOT]</code></pre>
+          <p>Nested substitution is not automatically evil. It just becomes difficult to audit when people compress every step into one line and remove all the useful whitespace.</p>
+
+          <hr>
+          <h2>10. The Obfuscation Sandwich — Hex + Expansion + Reassembly</h2>
+          <p>Let's put several of these tricks together. This reconstructs a harmless label from hex bytes, changes part of it, and prints the result.</p>
+          <pre><code>#!/usr/bin/env bash
+set -u
+
+bytes=(78 30 78 72 30 30 74)
+label=""
+
+for byte in "${bytes[@]}"; do
+    printf -v char '%b' "\\x${byte}"
+    label+="$char"
+done
+
+label="${label//x/X}"
+label="${label^^}"
+
+printf '%s\n' "$label"</code></pre>
+          <p><strong>Output:</strong></p>
+          <pre><code>X0XR00T</code></pre>
+          <p>What's happening?</p>
+          <ol>
+            <li>The array stores hexadecimal byte values.</li>
+            <li><code>printf -v</code> writes the decoded character into a variable.</li>
+            <li>The loop reconstructs the original label.</li>
+            <li>Parameter expansion replaces lowercase <code>x</code>.</li>
+            <li>Case conversion turns the whole result uppercase.</li>
+          </ol>
+          <p>Five operations. No external text-processing commands. Still readable enough that the next person doesn't need a séance to maintain it.</p>
+
+          <hr>
+          <h2>11. One-Liner Crime Scene — All the Moving Parts</h2>
+          <p>Here's a deliberately dense but harmless example. It takes a hex string, decodes it, applies a substitution, and prints the result:</p>
+          <pre><code>hex='x0xr00t'; printf '<%s>\n' "${hex//x/X}"</code></pre>
+          <p><strong>Output:</strong></p>
+          <pre><code><X0Xr00t></code></pre>
+          <p>And a more shell-heavy variant using ANSI-C quoting and concatenation:</p>
+          <pre><code>printf '%s\n' $'x0''x''r00t'</code></pre>
+          <p><strong>Output:</strong></p>
+          <pre><code>x0xr00t</code></pre>
+          <p>The point is not to win a competition for the least readable command. The point is to recognize the transformations when you encounter them in scripts, logs, installers or suspicious command lines.</p>
+
+          <hr>
+          <h2>12. Security Research — Read the String Before You Run the String</h2>
+          <p>Obfuscated shell strings show up in plenty of legitimate places: installers, compact scripts, challenge environments, test harnesses and security research. They also show up in suspicious scripts that want a reviewer to miss what is really being executed.</p>
+          <p>When investigating an unfamiliar command:</p>
+          <ul>
+            <li>Identify the interpreter. Bash, Zsh and <code>/bin/sh</code> do not share every feature.</li>
+            <li>Separate quoting, expansion, word splitting and pathname expansion in your analysis.</li>
+            <li>Decode data into a variable or file for inspection instead of piping it directly into a shell.</li>
+            <li>Check command substitutions and any use of <code>eval</code> or <code>bash -c</code>.</li>
+            <li>Use a disposable, isolated environment when execution is genuinely required.</li>
+            <li>Never assume Base64, hex, XOR or string splitting makes content safe.</li>
+          </ul>
+          <blockquote>
+            If you cannot explain what a command expands into, you do not understand the command yet.
+          </blockquote>
+          <p>That is the difference between recognizing shell syntax and actually understanding what the interpreter is about to do.</p>
+
+          <hr>
+          <h2>Closing Statement — x0xr00t</h2>
+          <p>And there we go. Another episode of making a perfectly good terminal question its life choices.</p>
+          <p>We've rebuilt strings from hex and octal, glued quote fragments together, followed indirect variables, played with bitwise arithmetic, bent Bash globbing, wandered into Zsh qualifiers and nested command substitutions until the parentheses started multiplying.</p>
+          <p>Remember: shell obfuscation is not wizardry. It is syntax, parsing and expansion. Learn the order, inspect the result and stop treating mystery one-liners like collectible Pokémon.</p>
+          <p>Especially when the prompt says <code>root</code>.</p>
+          <p><strong>Stay curious. Stay sharp. Keep your shell quoted. And don't execute terminal spaghetti just because somebody on the internet called it a “pro tip”.</strong></p>
+          <p>You have been warned.</p>
+          <p><strong>— x0xr00t | sl0ppyRoot</strong></p>
+          <p><em>Red Teaming | Linux Security | Vulnerability Research | Shell Abuse</em></p>
+          <p><code>[ END OF TRANSMISSION ]</code></p>
+          <hr>
+          <h3>References &amp; Further Reading</h3>
+          <ul>
+            <li><a href="https://www.gnu.org/software/bash/manual/">GNU Bash Manual</a></li>
+            <li><a href="https://www.gnu.org/s/bash/manual/html_node/ANSI_002dC-Quoting.html">Bash ANSI-C Quoting</a></li>
+            <li><a href="https://www.gnu.org/s/bash/manual/html_node/Pattern-Matching.html">Bash Pattern Matching</a></li>
+            <li><a href="https://zsh.sourceforge.io/Doc/Release/Expansion.html">Zsh Expansion Manual</a></li>
+            <li><a href="https://man7.org/linux/man-pages/">Linux Manual Pages</a></li>
+          </ul>
+        </section>
+      </article>
+    </main>
+
+    <footer>
+      <strong>x0xr00t | sl0ppyRoot</strong><br>
+      Red Teaming · Linux Security · Vulnerability Research<br>
+      <span>[ END OF TRANSMISSION ]</span>
+    </footer>
+  </div>
+</body>
+</html>
