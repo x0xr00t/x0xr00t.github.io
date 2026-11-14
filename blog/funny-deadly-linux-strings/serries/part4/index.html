@@ -113,7 +113,24 @@
           <strong>Platform:</strong> Kali Linux 2026, Debian, Ubuntu, Fedora, Arch Linux and other modern Linux distributions.</p>
           <hr>
           
-          <img class="media" src="x0xr00t-blog4-2.png" alt="x0xr00t image" loading="lazy" style="display: block; margin: 0 auto; max-width: 500px; width: 100%; height: auto;">
+          <img id="rotating-img" class="media" src="x0xr00t-blog4-1.png" alt="x0xr00t image" loading="lazy" style="display: block; margin: 0 auto; max-width: 500px; width: 100%; height: auto;">
+
+<script>
+  const images = [
+    "x0xr00t-blog4-1.png",
+    "x0xr00t-blog4-2.png"
+  ];
+
+  let currentIndex = 0;
+  const imgElement = document.getElementById("rotating-img");
+
+  // Switches every 2 minutes (120,000 ms)
+  setInterval(() => {
+    currentIndex = (currentIndex + 1) % images.length;
+    imgElement.src = images[currentIndex];
+  }, 120000);
+</script>
+
           
           <h2>Previously, on Terminal Abuse...</h2>
           <p>Well, look who's back for another episode of questionable shell behaviour.</p>
