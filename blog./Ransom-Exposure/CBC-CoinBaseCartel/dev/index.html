@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Threat actor exposure brief: RansomHub ransomware-as-a-service — origins, TTPs, timeline, disruption and post-mortem.">
+  <meta name="author" content="x0xr00t">
+  <meta name="theme-color" content="#090d12">
+  <title>THREAT ACTOR EXPOSURE // RansomHub | x0xr00t</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #090d12;
+      --panel: #101820;
+      --text: #d9e2e8;
+      --muted: #91a0aa;
+      --accent: #00ff66;
+      --red: #ff3b3b;
+      --amber: #ffb347;
+      --cyan: #42d9ff;
+      --border: #24333d;
+      --code: #070b0f;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: radial-gradient(ellipse at top, #12202a 0, var(--bg) 52rem);
+      color: var(--text);
+      font: 16px/1.75 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    a { color: var(--cyan); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+    a:hover { color: var(--accent); }
+    .shell { width: min(960px, calc(100% - 36px)); margin: 0 auto; }
+    .topline { border-bottom: 1px solid var(--border); }
+    .topline-inner { min-height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .brand { color: var(--accent); font-weight: 800; letter-spacing: .08em; text-decoration: none; }
+    .brand span { color: var(--muted); font-weight: 500; letter-spacing: 0; }
+    .eyebrow { color: var(--accent); font: 700 .76rem/1.4 ui-monospace, monospace; letter-spacing: .13em; text-transform: uppercase; }
+    .classification {
+      text-align: center; padding: 6px 0; border-bottom: 1px solid var(--border);
+      font: 700 .72rem/1.4 ui-monospace, monospace; letter-spacing: .3em; color: var(--red);
+    }
+    header.article-head { padding: clamp(42px, 8vw, 82px) 0 34px; }
+    h1 {
+      margin: 12px 0 18px; max-width: 850px; color: #f3f7f9;
+      font-size: clamp(2.1rem, 6vw, 4.1rem); line-height: 1.08; letter-spacing: -.045em;
+    }
+    .subtitle { max-width: 780px; color: #b6c5ce; font-size: clamp(1.05rem, 2.2vw, 1.25rem); }
+    .byline { display: flex; gap: 12px 22px; flex-wrap: wrap; margin-top: 25px; color: var(--muted); font-size: .9rem; }
+    .byline strong { color: var(--text); }
+    main {
+      margin-bottom: 70px; padding: clamp(22px, 5vw, 52px);
+      background: color-mix(in srgb, var(--panel) 94%, transparent);
+      border: 1px solid var(--border); border-radius: 16px;
+      box-shadow: 0 24px 80px #0005;
+    }
+    .content h2 { margin: 2.2em 0 .65em; color: #f2f7f9; font-size: clamp(1.5rem, 3.4vw, 2rem); line-height: 1.25; }
+    .content h3 { margin: 1.8em 0 .6em; color: var(--cyan); font-size: 1.2rem; line-height: 1.35; }
+    .content p { margin: 1em 0; }
+    .content strong { color: #f5fafc; }
+    .content hr { border: 0; border-top: 1px solid var(--border); margin: 2.5em 0; }
+    .content ul, .content ol { padding-left: 1.5rem; }
+    .content li { margin: .35em 0; }
+    .content code {
+      padding: .12em .38em; border: 1px solid #293943; border-radius: 5px;
+      background: #0a1117; color: #9fffc1; font: .9em ui-monospace, SFMono-Regular, Consolas, monospace;
+    }
+    .content pre {
+      overflow-x: auto; margin: 1.2em 0 1.5em; padding: 18px 20px;
+      border: 1px solid #263943; border-left: 3px solid var(--accent); border-radius: 9px;
+      background: var(--code); color: #d8e6eb; line-height: 1.6; white-space: pre;
+    }
+    .content pre code { padding: 0; border: 0; background: transparent; color: inherit; font-size: .9rem; }
+    .content table { display: block; width: 100%; overflow-x: auto; border-collapse: collapse; }
+    .content th, .content td { padding: 10px 12px; border: 1px solid var(--border); text-align: left; }
+    .content th { background: #14232c; color: var(--accent); }
+    .content blockquote { margin: 1.5em 0; padding: 4px 18px; border-left: 3px solid var(--cyan); color: #b9c8d0; }
+
+    /* Intel-grade additions */
+    .dossier { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin: 1.5em 0; }
+    .card {
+      border: 1px solid var(--border); border-radius: 10px; background: #0c131a; padding: 16px 18px;
+    }
+    .card .k { color: var(--muted); font: 700 .7rem/1.5 ui-monospace, monospace; letter-spacing: .12em; text-transform: uppercase; }
+    .card .v { color: #f2f7f9; font-weight: 600; margin-top: 4px; }
+    .badge {
+      display: inline-block; padding: 2px 10px; border-radius: 999px; border: 1px solid;
+      font: 700 .72rem/1.7 ui-monospace, monospace; letter-spacing: .08em; text-transform: uppercase;
+    }
+    .badge.red { color: var(--red); border-color: var(--red); background: #ff3b3b14; }
+    .badge.amber { color: var(--amber); border-color: var(--amber); background: #ffb34714; }
+    .badge.green { color: var(--accent); border-color: var(--accent); background: #00ff6614; }
+    .badge.cyan { color: var(--cyan); border-color: var(--cyan); background: #42d9ff14; }
+    .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin: 1.5em 0; }
+    .stat { border: 1px solid var(--border); border-radius: 10px; background: #0c131a; padding: 18px; text-align: center; }
+    .stat .n { color: var(--accent); font-size: 1.9rem; font-weight: 800; letter-spacing: -.02em; }
+    .stat .l { color: var(--muted); font-size: .78rem; text-transform: uppercase; letter-spacing: .1em; margin-top: 4px; }
+    .timeline { list-style: none; padding: 0; margin: 1.5em 0; border-left: 2px solid var(--border); }
+    .timeline li { position: relative; padding: 0 0 1.4em 1.6em; }
+    .timeline li::before {
+      content: ""; position: absolute; left: -7px; top: .55em; width: 12px; height: 12px;
+      border-radius: 50%; background: var(--bg); border: 2px solid var(--accent);
+    }
+    .timeline li.warn::before { border-color: var(--red); }
+    .timeline .t { font: 700 .82rem/1.6 ui-monospace, monospace; color: var(--accent); letter-spacing: .06em; }
+    .timeline li.warn .t { color: var(--red); }
+    .disclaimer {
+      border: 1px solid var(--amber); border-radius: 10px; background: #ffb34710;
+      padding: 14px 18px; margin: 1.5em 0; color: #ffd9a0; font-size: .92rem;
+    }
+    footer { padding: 0 0 38px; color: var(--muted); text-align: center; font-size: .85rem; }
+    footer strong { color: var(--accent); }
+    @media (max-width: 600px) {
+      .shell { width: min(100% - 22px, 960px); }
+      main { padding: 20px 16px; border-radius: 11px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="classification">// OPEN-SOURCE THREAT INTELLIGENCE — FOR DEFENSIVE USE //</div>
+  <div class="topline">
+    <div class="shell topline-inner">
+      <a class="brand" href="#top">x0xr00t <span>/ sl0ppyRoot</span></a>
+      <span class="eyebrow">Threat Actor Exposure · Dossier 001</span>
+    </div>
+  </div>
+
+  <div class="shell" id="top">
+    <header class="article-head">
+      <div class="eyebrow">RaaS Post-Mortem</div>
+      <h1>EXPOSED: RansomHub</h1>
+      <p class="subtitle">The fastest-rising ransomware-as-a-service brand of 2024–2025 — and how it collapsed in 72 hours.</p>
+      <div class="byline">
+        <span>By <strong>x0xr00t</strong></span>
+        <span>Series: Threat Actor Exposure</span>
+        <span>Updated: November 14, 2026</span>
+      </div>
+    </header>
+
+    <main>
+      <article class="content">
+        <div class="disclaimer">
+          <strong>Disclaimer:</strong> This brief is compiled exclusively from public reporting by security vendors and researchers (Trend Micro, Fortinet, Group-IB, Check Point, Sophos, Bitsight, Kaspersky/Securelist, CISA). It is intended for defensive awareness. No criminal infrastructure links are provided.
+        </div>
+
+        <h2>01. Dossier Snapshot</h2>
+        <div class="dossier">
+          <div class="card"><div class="k">Designation</div><div class="v">RansomHub</div></div>
+          <div class="card"><div class="k">Classification</div><div class="v">Ransomware-as-a-Service (RaaS)</div></div>
+          <div class="card"><div class="k">First Observed</div><div class="v">February 2024</div></div>
+          <div class="card"><div class="k">Status</div><div class="v"><span class="badge red">Defunct — April 2025</span></div></div>
+          <div class="card"><div class="k">Suspected Lineage</div><div class="v">Knight → Cyclops spinoff</div></div>
+          <div class="card"><div class="k">Tooling Language</div><div class="v">Golang (Gobfuscate-obfuscated), C++ for ESXi</div></div>
+          <div class="card"><div class="k">Target Profile</div><div class="v">Large enterprises, healthcare, IT, finance, education</div></div>
+          <div class="card"><div class="k">Leak Site</div><div class="v"><span class="badge red">Offline since 31 Mar 2025</span></div></div>
+        </div>
+
+        <div class="stat-grid">
+          <div class="stat"><div class="n">~75</div><div class="l">Victims / month (pre-shutdown avg)</div></div>
+          <div class="stat"><div class="n">85/15</div><div class="l">Affiliate split (raised from 90/10)</div></div>
+          <div class="stat"><div class="n">14 mo</div><div class="l">Operational lifespan</div></div>
+          <div class="stat"><div class="n">~500+</div><div class="l">Victims listed over lifetime (est.)</div></div>
+        </div>
+
+        <h2>02. Who They Were</h2>
+        <p>RansomHub appeared in <strong>February 2024</strong> and within months became one of the most prolific ransomware operations in the world. Technical analysis showed strong code overlap with <strong>Knight</strong> ransomware, which itself descended from the <strong>Cyclops</strong> group — making RansomHub effectively a rebrand with better affiliate terms.</p>
+        <p>Its business model was aggressive: RansomHub raised the affiliate payout split from 90/10 to <strong>85/15 in the affiliates' favor (January 2025)</strong>, poaching experienced operators from LockBit as that brand declined. By late 2024, it had effectively supplanted LockBit as the dominant RaaS brand.</p>
+        <p>Per CISA, the core platform did <strong>not</strong> provide built-in data-exfiltration tooling — affiliates ran their own exfiltration and double-extortion playbooks. Exfiltrated victim data was also sold on the group's leak site.</p>
+
+        <h2>03. Timeline of Rise and Collapse</h2>
+        <ul class="timeline">
+          <li><span class="t">FEB 2024</span><br>First detections. Code analysis links the encryptor to the Knight / Cyclops lineage.</li>
+          <li><span class="t">2024</span><br>Rapid affiliate growth; targets Citrix CVE-2023-3519 and other edge-device exploits; becomes one of the most active leak-site brands.</li>
+          <li><span class="t">JUL–DEC 2024</span><br>Affiliates deploy <strong>EDRKillShifter</strong> (documented by Sophos) using vulnerable drivers such as RentDrv2 and ThreatFireMonitor.</li>
+          <li><span class="t">24 JAN 2025</span><br>Affiliate split raised to 85/15 — a deliberate talent raid on orphaned LockBit operators.</li>
+          <li class="warn"><span class="t">31 MAR 2025</span><br>Leak site goes dark. Affiliate communication portal goes offline (~1 Apr 2025).</li>
+          <li class="warn"><span class="t">1–8 APR 2025</span><br><strong>DragonForce claims takeover of RansomHub's infrastructure</strong>, publicly recognized on 8 April 2025. A new ransomware build and a DDoS feature appear in its affiliate panel.</li>
+          <li><span class="t">Q2 2025 → 2026</span><br>Orphaned affiliates migrate — most visibly to <strong>Qilin</strong>, whose monthly victim count nearly doubles from ~35 to ~70. Check Point treats DragonForce's "RansomHub moved to us" claim as unverified.</li>
+        </ul>
+
+        <h2>04. Tactics, Techniques &amp; Procedures</h2>
+        <table>
+          <thead><tr><th>Phase</th><th>Observed TTP</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>Initial access</td><td>Edge-device &amp; VPN exploitation (e.g., Citrix CVE-2023-3519); SocGholish (FakeUpdates) dropper</td><td>SocGholish delivered second-stage backdoors used by RansomHub affiliates</td></tr>
+            <tr><td>Execution</td><td>Golang encryptors (Windows/Linux), C++ variants for ESXi</td><td>Gobfuscate used to hinder static analysis</td></tr>
+            <tr><td>Defense evasion</td><td>EDRKillShifter BYOVD driver abuse</td><td>RentDrv2, ThreatFireMonitor drivers observed</td></tr>
+            <tr><td>Impact</td><td>File encryption, data theft for double extortion</td><td>Feb 2025 incident: disk wiping + BitLocker pre-boot abuse to block recovery</td></tr>
+            <tr><td>Lateral movement</td><td>Group Policy abuse</td><td>PowerScript <code>gpupdate /force</code> observed pushing payload via GPO in Mar 2025 incident</td></tr>
+            <tr><td>Extortion</td><td>Leak-site publication + sale of stolen data</td><td>No built-in exfil in the panel — affiliate-supplied tooling</td></tr>
+          </tbody>
+        </table>
+
+        <h2>05. Why It Collapsed</h2>
+        <p>The precise circumstances of RansomHub's April 2025 shutdown remain <strong>unclear</strong> — Check Point notes the impact on the ecosystem was immediate, but no law-enforcement claim of responsibility was made. Competing explanations include internal infrastructure failure, an exit scam, or pressure from rival actors. What is certain:</p>
+        <ul>
+          <li>The leak site and negotiation portal went dark simultaneously on 31 Mar – 1 Apr 2025.</li>
+          <li>DragonForce seized the moment, claiming control of RansomHub's infrastructure and advertising its panel to orphaned affiliates.</li>
+          <li>Affiliates — the real assets in any RaaS operation — largely defecting to Qilin, which became the dominant brand from Q2 2025 onward.</li>
+        </ul>
+        <blockquote>Kaspersky's 2026 ransomware review calls RansomHub the textbook case of RaaS volatility: a rapid rise, an equally rapid disappearance, and a vacuum that reshaped affiliate distribution across the entire ecosystem.</blockquote>
+
+        <h2>06. Defensive Takeaways</h2>
+        <ul>
+          <li><strong>Brand death ≠ threat death.</strong> Affiliates survive rebrands. Track behavior and tooling (EDRKillShifter, Golang encryptors, SocGholish chains), not just leak-site names.</li>
+          <li><strong>Edge devices are the front door.</strong> Patch internet-facing VPN/gateway appliances on emergency timelines.</li>
+          <li><strong>Watch your drivers.</strong> BYOVD detection (vulnerable driver load by unsigned processes) catches EDR-killer tradecraft.</li>
+          <li><strong>Lock down GPO.</strong> Monitor Group Policy object modifications and <code>gpupdate</code> execution on servers.</li>
+          <li><strong>Assume double extortion.</strong> Backups defeat encryption, not exfiltration — egress monitoring matters equally.</li>
+        </ul>
+
+        <h2>07. Sources</h2>
+        <ul>
+          <li><a href="https://www.trendaisecurity.com/en-us/resources-insights/deep-research/ransomware-spotlight-ransomhub">Trend Micro — Ransomware Spotlight: RansomHub</a></li>
+          <li><a href="https://www.fortiguard.com/threat-actor/6346/ransomhub-ransomware">Fortinet FortiGuard — RansomHub Threat Actor</a></li>
+          <li><a href="https://www.group-ib.com/blog/ransomware-debris/">Group-IB — Ransomware Debris: Analysis of the RansomHub Operation</a></li>
+          <li><a href="https://www.cybersecuritydive.com/news/ransomware-groups-competition-check-point-report/756451/">Cybersecurity Dive — Check Point report on affiliate competition</a></li>
+          <li><a href="https://securelist.com/state-of-ransomware-in-2026/119761/">Kaspersky Securelist — State of Ransomware 2026</a></li>
+          <li><a href="https://www.bitsight.com/blog/guide-to-ransomhub-ransomware-2025">Bitsight — Guide to RansomHub Ransomware</a></li>
+          <li><a href="https://nhimg.org/ransomhub-threat-actor-profile">NHI — RansomHub Threat Actor Profile</a></li>
+        </ul>
+
+        <hr>
+        <h3>Closing Statement — x0xr00t</h3>
+        <p>Fourteen months. Five hundred victims. One silent collapse. RansomHub is proof that in the RaaS economy, the brand is disposable — the affiliates, the tooling and the tradecraft just migrate to the next highest bidder.</p>
+        <p><strong>Stay curious. Stay sharp. Patch your edge. And never assume a ransomware brand is dead just because its leak site is.</strong></p>
+        <p><strong>— x0xr00t | sl0ppyRoot</strong></p>
+        <p><em>Red Teaming | Linux Security | Threat Intelligence | Shell Abuse</em></p>
+        <p><code>[ END OF TRANSMISSION ]</code></p>
+      </article>
+    </main>
+
+    <footer>
+      <strong>x0xr00t | sl0ppyRoot</strong><br>
+      Threat Actor Exposure Series · Dossier 001<br>
+      <span>[ END OF TRANSMISSION ]</span>
+    </footer>
+  </div>
+</body>
+</html>
